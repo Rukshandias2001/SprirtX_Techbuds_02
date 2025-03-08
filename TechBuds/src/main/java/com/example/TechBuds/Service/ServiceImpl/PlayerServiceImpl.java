@@ -1,6 +1,7 @@
 package com.example.TechBuds.Service.ServiceImpl;
 
 import com.example.TechBuds.Entities.PlayerStats;
+import com.example.TechBuds.Modal.PlayerPriceDTO;
 import com.example.TechBuds.Modal.PlayerStatDTO;
 import com.example.TechBuds.Repositories.PlayerStatsRepository;
 import com.example.TechBuds.Service.PlayerService;
@@ -30,17 +31,11 @@ public class PlayerServiceImpl implements PlayerService {
 
         ArrayList<PlayerStatDTO> listOfPlayerStatDTOS = new ArrayList<>();
         for (PlayerStats playerStats : all) {
-
-
-            double strikeRate = ((double) playerStats.getTotalRuns() /playerStats.getBallsFaced())*100;
-            double battingAverage = (double) playerStats.getTotalRuns() /playerStats.getInningsPlayed();
-            double bowlingstrikeRate = (double) playerStats.getBallsFaced() /playerStats.getWickets();
-            double economyRate = ((double) playerStats.getTotalRuns() /playerStats.getBallsFaced())*6;
-            double stats = (strikeRate/5 + battingAverage*0.8)+(500/bowlingstrikeRate + 140/economyRate);
+            Double stats = generateStats(playerStats);
 
             // Round to 2 decimal places using BigDecimal
             BigDecimal roundedStats = new BigDecimal(stats).setScale(2, RoundingMode.HALF_UP);
-            PlayerStatDTO playerStatDTO = createInstance(playerStats, roundedStats);
+            PlayerStatDTO playerStatDTO = createInstance(playerStats, roundedStats.doubleValue());
             listOfPlayerStatDTOS.add(playerStatDTO);
 
         }
@@ -51,26 +46,62 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     public ArrayList<PlayerStats> getPlayer() {
-        return (ArrayList<PlayerStats>) playerStatsRepository.findAll();
+       return (ArrayList<PlayerStats>) playerStatsRepository.findAll();
+    }
 
+    public ArrayList<PlayerPriceDTO> getPlayerPrice() {
+        List<PlayerStats> all = playerStatsRepository.findAll();
+        ArrayList<PlayerPriceDTO> listOfPlayerPriceDTOS = new ArrayList<>();
+        for (PlayerStats playerStats : all) {
+            double stats = generateStats(playerStats);
+            PlayerPriceDTO instancePlayerPrice = createInstancePlayerPrice(playerStats, stats);
+            listOfPlayerPriceDTOS.add(instancePlayerPrice);
+        }
+
+        return listOfPlayerPriceDTOS;
     }
 
 
 
-    private PlayerStatDTO createInstance(PlayerStats playerStats,BigDecimal roundedStats){
+    private PlayerStatDTO createInstance(PlayerStats playerStats,double roundedStats){
         PlayerStatDTO playerStatDTO = new PlayerStatDTO();
-        playerStatDTO.setPoints(roundedStats.doubleValue()); // Convert BigDecimal back to double
+        playerStatDTO.setPoints(roundedStats); // Convert BigDecimal back to double
         playerStatDTO.setPlayerName(playerStats.getName());
         playerStatDTO.setCampus(playerStats.getUniversity());
         playerStatDTO.setId(playerStats.getId());
         DecimalFormat df = new DecimalFormat("0.00");  // Ensures two decimal places
-        double price =  (roundedStats.doubleValue()*9)*1000;
+        double price =  (roundedStats*9)*1000;
         BigDecimal roundPrice = new BigDecimal(price).setScale(2, RoundingMode.HALF_UP);
         playerStatDTO.setPrice(Double.parseDouble(df.format(Double.parseDouble(df.format(roundPrice.doubleValue())))));
-
-
         return  playerStatDTO;
 
-
     }
+
+
+    private PlayerPriceDTO createInstancePlayerPrice(PlayerStats playerStats,double roundedStats){
+        PlayerPriceDTO playerPriceDTO = new PlayerPriceDTO();
+        playerPriceDTO.setId(playerStats.getId());
+        playerPriceDTO.setBallsFaced(playerStats.getBallsFaced());
+        playerPriceDTO.setInningsPlayed(playerStats.getInningsPlayed());
+        playerPriceDTO.setWickets(playerStats.getWickets());
+        playerPriceDTO.setTotalRuns(playerStats.getTotalRuns());
+        playerPriceDTO.setUniversity(playerStats.getUniversity());
+        playerPriceDTO.setName(playerStats.getName());
+        playerPriceDTO.setOversBowled(playerStats.getOversBowled());
+        playerPriceDTO.setCategory(playerStats.getCategory());
+        double price =  (roundedStats*9)*1000;
+        playerPriceDTO.setPrice(price);
+        return playerPriceDTO;
+    }
+
+
+    private Double generateStats(PlayerStats playerStats){
+        double strikeRate = ((double) playerStats.getTotalRuns() /playerStats.getBallsFaced())*100;
+        double battingAverage = (double) playerStats.getTotalRuns() /playerStats.getInningsPlayed();
+        double bowlingstrikeRate = (double) playerStats.getBallsFaced() /playerStats.getWickets();
+        double economyRate = ((double) playerStats.getTotalRuns() /playerStats.getBallsFaced())*6;
+        return (strikeRate/5 + battingAverage*0.8)+(500/bowlingstrikeRate + 140/economyRate);
+    }
+
+
 }
