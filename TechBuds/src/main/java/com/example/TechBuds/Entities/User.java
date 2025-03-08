@@ -7,8 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Collections;
 
 @Document(collection = "users")
 public class User {
@@ -23,7 +22,10 @@ public class User {
     
     private String email;
     
-    private List<String> roles;
+    // Replace roles list with a single role
+    private String role;
+    
+    private Boolean admin = false;
     
     // Getters and setters
     public String getId() {
@@ -58,17 +60,23 @@ public class User {
         this.email = email;
     }
     
-    public List<String> getRoles() {
-        return roles;
+    public String getRole() {
+        return role;
     }
     
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
+    public void setRole(String role) {
+        this.role = role;
+    }
+    
+    public Boolean getAdmin() {
+        return admin;
+    }
+    
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
     }
     
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        return Collections.singletonList(new SimpleGrantedAuthority(role));
     }
 }

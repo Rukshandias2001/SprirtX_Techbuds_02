@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,14 +31,13 @@ import java.util.List;
 public class WebSecurityConfig {
     
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final JwtRequestFilter jwtRequestFilter;
-    
-    // Constructor injection
+    private final UserService userService;  // Add this field
+
     @Autowired
-    public WebSecurityConfig(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, 
-                            JwtRequestFilter jwtRequestFilter) {
+    public WebSecurityConfig(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+                           UserService userService) {  // Add to constructor
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
-        this.jwtRequestFilter = jwtRequestFilter;
+        this.userService = userService;
     }
     
     // This bean should be created FIRST, before any other beans that need it
@@ -48,7 +48,7 @@ public class WebSecurityConfig {
     }
     
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtRequestFilter jwtRequestFilter) throws Exception {
         // Modern way to configure security using lambda style
         http
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
@@ -83,5 +83,13 @@ public class WebSecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        // configure AuthenticationManager so that it knows from where to load
+        // user for matching credentials
+        // Use BCryptPasswordEncoder
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
     }
 }
