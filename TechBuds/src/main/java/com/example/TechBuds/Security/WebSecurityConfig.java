@@ -1,7 +1,10 @@
 package com.example.TechBuds.Security;
 
 import com.example.TechBuds.Services.UserService;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -22,8 +25,12 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
+import java.security.SecureRandom;
 
 @Configuration
 @EnableWebSecurity
@@ -49,15 +56,17 @@ public class WebSecurityConfig {
     
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtRequestFilter jwtRequestFilter) throws Exception {
-        // Modern way to configure security using lambda style
         http
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
             .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow preflight requests
-                .requestMatchers(HttpMethod.POST, "/api/auth/register", "/api/auth/login").permitAll()
-                .requestMatchers("/api/public/**").permitAll()
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers("/error").permitAll() // Allow error endpoint
+                .requestMatchers(
+                    "/api/auth/**",           // Allow all auth endpoints
+                    "/api/public/**"          // Allow all public endpoints
+                ).permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session
@@ -73,8 +82,10 @@ public class WebSecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
-        configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));  // Allow all headers
+        configuration.setExposedHeaders(Arrays.asList("x-auth-token", "Authorization", "Access-Control-Allow-Origin", 
+                                                    "Access-Control-Allow-Credentials"));
+        configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
@@ -91,5 +102,14 @@ public class WebSecurityConfig {
         // user for matching credentials
         // Use BCryptPasswordEncoder
         auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+    }
+
+    @Value("${jwt.secret}")
+    private String secret;
+
+    @Bean
+    public SecretKey jwtSigningKey() {
+        byte[] keyBytes = Base64.getDecoder().decode(secret);
+        return new SecretKeySpec(keyBytes, "HmacSHA512");
     }
 }
