@@ -66,8 +66,8 @@ public class PlayerServiceImpl implements PlayerService {
         DecimalFormat df = new DecimalFormat("0.00");  // Ensures two decimal places
         double price =  (roundedStats.doubleValue()*9)*1000;
         BigDecimal roundPrice = new BigDecimal(price).setScale(2, RoundingMode.HALF_UP);
-        playerStatDTO.setPrice(roundPrice.doubleValue());
-        String format = df.format(Double.parseDouble(df.format(roundPrice.doubleValue())));
+        playerStatDTO.setPrice(Double.parseDouble(df.format(Double.parseDouble(df.format(roundPrice.doubleValue())))));
+
 
         return  playerStatDTO;
 
