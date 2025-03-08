@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -29,20 +30,17 @@ public class PlayerServiceImpl implements PlayerService {
 
         ArrayList<PlayerStatDTO> listOfPlayerStatDTOS = new ArrayList<>();
         for (PlayerStats playerStats : all) {
-            PlayerStatDTO playerStatDTO = new PlayerStatDTO();
+
 
             double strikeRate = ((double) playerStats.getTotalRuns() /playerStats.getBallsFaced())*100;
             double battingAverage = (double) playerStats.getTotalRuns() /playerStats.getInningsPlayed();
             double bowlingstrikeRate = (double) playerStats.getBallsFaced() /playerStats.getWickets();
             double economyRate = ((double) playerStats.getTotalRuns() /playerStats.getBallsFaced())*6;
             double stats = (strikeRate/5 + battingAverage*0.8)+(500/bowlingstrikeRate + 140/economyRate);
+
             // Round to 2 decimal places using BigDecimal
             BigDecimal roundedStats = new BigDecimal(stats).setScale(2, RoundingMode.HALF_UP);
-
-            playerStatDTO.setPoints(roundedStats.doubleValue()); // Convert BigDecimal back to double
-            playerStatDTO.setPlayerName(playerStats.getName());
-            playerStatDTO.setCampus(playerStats.getUniversity());
-            playerStatDTO.setId(playerStats.getId());
+            PlayerStatDTO playerStatDTO = createInstance(playerStats, roundedStats);
             listOfPlayerStatDTOS.add(playerStatDTO);
 
         }
@@ -54,6 +52,25 @@ public class PlayerServiceImpl implements PlayerService {
 
     public ArrayList<PlayerStats> getPlayer() {
         return (ArrayList<PlayerStats>) playerStatsRepository.findAll();
+
+    }
+
+
+
+    private PlayerStatDTO createInstance(PlayerStats playerStats,BigDecimal roundedStats){
+        PlayerStatDTO playerStatDTO = new PlayerStatDTO();
+        playerStatDTO.setPoints(roundedStats.doubleValue()); // Convert BigDecimal back to double
+        playerStatDTO.setPlayerName(playerStats.getName());
+        playerStatDTO.setCampus(playerStats.getUniversity());
+        playerStatDTO.setId(playerStats.getId());
+        DecimalFormat df = new DecimalFormat("0.00");  // Ensures two decimal places
+        double price =  (roundedStats.doubleValue()*9)*1000;
+        BigDecimal roundPrice = new BigDecimal(price).setScale(2, RoundingMode.HALF_UP);
+        playerStatDTO.setPrice(roundPrice.doubleValue());
+        String format = df.format(Double.parseDouble(df.format(roundPrice.doubleValue())));
+
+        return  playerStatDTO;
+
 
     }
 }

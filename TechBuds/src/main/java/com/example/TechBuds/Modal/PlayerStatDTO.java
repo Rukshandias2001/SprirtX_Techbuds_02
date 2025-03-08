@@ -12,6 +12,15 @@ public class PlayerStatDTO {
     private String campus;
     private double points;
     private String id;
+    private Double price;
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
 
     public String getPlayerName() {
         return playerName;
@@ -44,4 +53,5 @@ public class PlayerStatDTO {
     public void setId(String id) {
         this.id = id;
     }
+
 }
