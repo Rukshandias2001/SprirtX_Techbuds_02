@@ -78,7 +78,6 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
 
-
     private PlayerPriceDTO createInstancePlayerPrice(PlayerStats playerStats,double roundedStats){
         PlayerPriceDTO playerPriceDTO = new PlayerPriceDTO();
         playerPriceDTO.setId(playerStats.getId());
@@ -106,6 +105,3 @@ public class PlayerServiceImpl implements PlayerService {
 
 
 }
-
-}
-
