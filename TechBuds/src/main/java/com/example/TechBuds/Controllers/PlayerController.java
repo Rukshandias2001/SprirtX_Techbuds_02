@@ -26,6 +26,12 @@ public class PlayerController {
 
     }
 
+    @GetMapping("/GetPlayers")
+    public ResponseEntity<ArrayList<PlayerStats>> getPlayers() {
+        ArrayList<PlayerStats> players = playerService.getPlayer();
+        return  ResponseEntity.ok().body(players);
+    }
+
 
 
 
