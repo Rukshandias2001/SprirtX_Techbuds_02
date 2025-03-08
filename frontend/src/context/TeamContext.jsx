@@ -14,7 +14,7 @@ export const TeamProvider = ({ children }) => {
 
   // Fetch players from API when component mounts
   useEffect(() => {
-    axios.get("http://localhost:8080/players/GetPlayerPrice")
+    axios.get("http://localhost:8080/players/getPlayersByPrice  this is for the price")
       .then(response => setPlayers(response.data))
       .catch(error => console.error("Error fetching players:", error));
   }, []); // Dependency array added to run effect only once
