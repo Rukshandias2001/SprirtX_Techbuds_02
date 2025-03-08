@@ -8,6 +8,6 @@ import java.util.ArrayList;
 public interface PlayerService {
     ArrayList<PlayerStatDTO> getPlayerStats();
 
-
+    ArrayList<PlayerStats> getPlayer();
 
 }

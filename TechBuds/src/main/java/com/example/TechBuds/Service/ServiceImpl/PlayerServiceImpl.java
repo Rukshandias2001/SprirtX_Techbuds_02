@@ -50,6 +50,10 @@ public class PlayerServiceImpl implements PlayerService {
         listOfPlayerStatDTOS.sort(Comparator.comparingDouble(PlayerStatDTO::getPoints).reversed());
 
         return listOfPlayerStatDTOS;
+    }
+
+    public ArrayList<PlayerStats> getPlayer() {
+        return (ArrayList<PlayerStats>) playerStatsRepository.findAll();
 
     }
 }
