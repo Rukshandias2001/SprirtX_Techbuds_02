@@ -1,6 +1,8 @@
 package com.example.TechBuds.Services.ServiceImpl;
 
+import com.example.TechBuds.Entities.PlayerStats;
 import com.example.TechBuds.Entities.User;
+import com.example.TechBuds.Repositories.PlayerStatsRepository;
 import com.example.TechBuds.Repositories.UserRepository;
 import com.example.TechBuds.Services.UserService;
 import com.example.TechBuds.Services.UserServiceInclude;
@@ -8,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -21,10 +20,11 @@ public class UserServiceImpl implements UserServiceInclude {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    PlayerStatsRepository playerStatsRepository;
 
     public Boolean addPlayer(String userId, String id,double playerPrice) {
-        // Fetch user safely using orElseThrow to avoid NullPointerException
-        Iterable<User> all = userRepository.findAll();
+
         Optional<User> byId = userRepository.findById(userId);
         if(byId.isPresent()) {
             User user = byId.get();
@@ -57,6 +57,37 @@ public class UserServiceImpl implements UserServiceInclude {
             return false;
         }
 
+    }
+
+    public Boolean deletePlayer(String userId, String id,double playerPrice) {
+        Optional<User> byId = userRepository.findById(userId);
+        if(byId.isPresent()) {
+            User user = byId.get();
+            Set<String> listOfPlayers = user.getListOfPlayers();
+            if(listOfPlayers.contains(id)) {
+                listOfPlayers.remove(id);
+                user.setListOfPlayers(listOfPlayers);
+                double price = user.getPrice();
+                double remain = price + playerPrice;
+                user.setPrice(remain);
+                userRepository.save(user);
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    public ArrayList<PlayerStats> listOfPlayers(ArrayList<String> listOfPlayers) {
+        return (ArrayList<PlayerStats>)  playerStatsRepository.findByIdIn(listOfPlayers);
+
+    }
+    public User getUserById(String id) {
+        Optional<User> byId = userRepository.findById(id);
+        User user = byId.get()  ;
+        return user;
     }
 
 }

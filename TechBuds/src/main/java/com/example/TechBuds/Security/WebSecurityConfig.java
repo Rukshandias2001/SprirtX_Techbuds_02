@@ -68,6 +68,10 @@ public class WebSecurityConfig {
                                 "/api/auth/**",  // Allow all auth endpoints
                                 "/api/public/**", // Allow all public endpoints
                                 "/players/**" // Allow all player-related endpoints
+                                ,"/Admin/**",
+                                "/editUser/**"
+
+
                         ).permitAll()
                         .anyRequest().authenticated() // Only require authentication for the remaining requests
                 )

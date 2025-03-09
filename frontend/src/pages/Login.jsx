@@ -23,6 +23,7 @@ const Login = () => {
         username: username,
         password: password
       });
+
       const token = response.data;
       console.log("Success", response.data);
       
@@ -48,6 +49,18 @@ const Login = () => {
 
       // Redirect based on role
       if (user.admin) {
+
+console.log("Success", response.data);
+      // Handle successful login
+      const { token, role } = response.data;
+      
+      // Store token in localStorage
+      localStorage.setItem("token", token);
+      localStorage.setItem("userRole", role);
+      
+      // Redirect based on role
+      if (role === "ADMIN") {
+
         navigate("/admin-dashboard");
       } else {
         navigate("/players");
