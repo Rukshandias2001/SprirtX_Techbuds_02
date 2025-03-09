@@ -3,14 +3,15 @@ import { useNavigate } from "react-router-dom";
 import "../styles/players.css";
 import image1 from "../assets/image copy 9.png";
 import image2 from "../assets/image copy 7.png";
-import image3 from "../assets/image.png";
+import image3 from "../assets/mora.png";
 import image4 from "../assets/image copy 2.png";
 import image5 from "../assets/image copy 4.png";
 import image6 from "../assets/image copy 6.png";
 import image7 from "../assets/image copy 5.png";
 import image8 from "../assets/image copy 3.png";
 import image9 from "../assets/image copy 5.png";
-import m11 from "../assets/ball.mp4"; // Ensure this path is correct
+import m11 from "../assets/ball.mp4"; 
+
 
 const universityMascots = {
   "University of the Visual & Performing Arts": image1,
@@ -91,7 +92,7 @@ const Players = () => {
               <img src={mascot} alt={university} className="university-logo" />
               <div className="university-info">
                 <h3>{university}</h3>
-                <button className="select-team-btn">Select Team</button>
+                <button className="select-team-btn">View Team</button>
               </div>
             </div>
           ))}

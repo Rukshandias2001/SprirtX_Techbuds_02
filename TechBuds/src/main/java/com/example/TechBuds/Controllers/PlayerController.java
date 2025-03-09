@@ -2,23 +2,20 @@ package com.example.TechBuds.Controllers;
 
 import com.example.TechBuds.Entities.PlayerStats;
 import com.example.TechBuds.Modal.PlayerPriceDTO;
-import com.example.TechBuds.Modal.PlayerStatDTO;
-import com.example.TechBuds.Service.PlayerService;
+import com.example.TechBuds.Services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import com.example.TechBuds.Modal.PlayerStatDTO;
 
 
 import java.util.ArrayList;
 
 @RestController
 
-@CrossOrigin
-@RequestMapping("/players")
-public class PlayerController {
 
+@RequestMapping("/players")
+@CrossOrigin(origins = "http://localhost:5174")
+public class PlayerController {
     @Autowired
     PlayerService playerService;
 

@@ -1,0 +1,131 @@
+/* Budget Page Container */
+.budget-page {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+/* Heading */
+.budget-page h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Budget Info Section */
+.budget-info {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.budget-info p {
+  font-size: 18px;
+  margin: 10px 0;
+  color: #555;
+}
+
+.budget-info span {
+  font-weight: bold;
+}
+
+/* Progress Bar */
+.progress-bar {
+  width: 100%;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 15px 0;
+}
+
+.progress-bar-fill {
+  height: 10px;
+  background-color: #4caf50;
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+.progress-bar-text {
+  font-size: 14px;
+  color: #777;
+  margin-top: 5px;
+}
+
+/* Low Budget Warning */
+.low-budget-warning {
+  color: #ff0000;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Team Completeness Status */
+.team-completeness {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin: 20px 0;
+}
+
+.team-completeness span {
+  color: #4caf50;
+}
+
+/* Players List */
+.players-list {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.players-list h3 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.players-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.players-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+  color: #555;
+}
+
+.players-list li:last-child {
+  border-bottom: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .budget-page {
+    padding: 10px;
+  }
+
+  .budget-info p {
+    font-size: 16px;
+  }
+
+  .team-completeness {
+    font-size: 16px;
+  }
+
+  .players-list h3 {
+    font-size: 18px;
+  }
+
+  .players-list li {
+    font-size: 14px;
+  }
+}
