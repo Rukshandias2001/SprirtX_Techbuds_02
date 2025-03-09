@@ -23,8 +23,7 @@ public class UserServiceImpl implements UserServiceInclude {
     UserRepository userRepository;
 
     public Boolean addPlayer(String userId, String id,double playerPrice) {
-        // Fetch user safely using orElseThrow to avoid NullPointerException
-        Iterable<User> all = userRepository.findAll();
+
         Optional<User> byId = userRepository.findById(userId);
         if(byId.isPresent()) {
             User user = byId.get();
@@ -57,6 +56,27 @@ public class UserServiceImpl implements UserServiceInclude {
             return false;
         }
 
+    }
+
+    public Boolean deletePlayer(String userId, String id,double playerPrice) {
+        Optional<User> byId = userRepository.findById(userId);
+        if(byId.isPresent()) {
+            User user = byId.get();
+            Set<String> listOfPlayers = user.getListOfPlayers();
+            if(listOfPlayers.contains(id)) {
+                listOfPlayers.remove(id);
+                user.setListOfPlayers(listOfPlayers);
+                double price = user.getPrice();
+                double remain = price + playerPrice;
+                user.setPrice(remain);
+                userRepository.save(user);
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
     }
 
 }

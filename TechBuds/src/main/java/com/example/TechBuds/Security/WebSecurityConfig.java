@@ -67,7 +67,8 @@ public class WebSecurityConfig {
                         .requestMatchers(
                                 "/api/auth/**",  // Allow all auth endpoints
                                 "/api/public/**", // Allow all public endpoints
-                                "/players/**" // Allow all player-related endpoints
+                                "/players/**" ,// Allow all player-related endpoints
+                                "/editUser/**"
                         ).permitAll()
                         .anyRequest().authenticated() // Only require authentication for the remaining requests
                 )

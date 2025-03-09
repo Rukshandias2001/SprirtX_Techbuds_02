@@ -19,5 +19,13 @@ public class UserController {
         return ResponseEntity.ok(condition);
     }
 
+    @DeleteMapping("deletePlayer")
+    public ResponseEntity<Boolean> deletePlayer(@RequestParam("userId") String userId,@RequestParam("id") String id,@RequestParam("price") double playerPrice){
+        Boolean condition = userServiceInclude.deletePlayer(userId, id, playerPrice);
+        return ResponseEntity.ok(condition);
+    }
+
+
+
 
 }
