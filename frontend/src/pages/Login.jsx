@@ -17,10 +17,13 @@ const Login = () => {
 
     try {
       // Make API call to authenticate
-      const response = await axios.post("http://localhost:8080/api/auth/authenticate", {
-        username,
-        password
-      });
+      const response = await axios.post(
+        "http://localhost:8080/api/auth/authenticate",
+        {
+          username,
+          password,
+        }
+      );
 
       const { token } = response.data;
       console.log("Login successful:", response.data);
@@ -33,13 +36,13 @@ const Login = () => {
         "http://localhost:8080/api/auth/current-user",
         {
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
+            Authorization: `Bearer ${token}`, // ✅ Fixed string template
+            "Content-Type": "application/json",
+          },
         }
       );
 
-      const { role } = userResponse.data;
+      const { role } = userResponse.data; // ✅ Extract role properly
       console.log("User data:", userResponse.data);
 
       // Store user role in localStorage
