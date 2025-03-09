@@ -5,7 +5,7 @@ import "../styles/SelectTeam.css";
 import defaultAvatar from "../assets/avatar.png";
 
 export default function SelectTeam() {
-  const { players, addPlayer, team } = useTeam();
+  const { players, addPlayer, team, removePlayer } = useTeam();
 
   const [selectedCategory, setSelectedCategory] = useState("Batsman");
 
@@ -55,15 +55,16 @@ export default function SelectTeam() {
               </div>
 
               {team.some((p) => p.id === player.id) ? (
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    removePlayer(player.id);
-                  }}
-                  className="remove-button-team"
-                >
-                  ❌ Remove
-                </button>
+               <button
+               onClick={() => {
+                 console.log("📢 Removing Player ID:", player.id); // Debug
+                 removePlayer(player.id);
+               }}
+               className="remove-button"
+             >
+               ❌ Remove
+             </button>
+             
               ) : (
                 <button
                   onClick={(e) => {

@@ -206,3 +206,10 @@
   transform: translateY(2px);
   box-shadow: 0 0 5px rgba(0, 255, 0, 0.8);
 }
+.team-budget {
+  font-size: 1.5rem;
+  color: #ffd700; /* Gold color */
+  text-shadow: 0px 0px 10px #ffd700;
+  font-weight: bold;
+  margin-bottom: 20px;
+}

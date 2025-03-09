@@ -2,6 +2,8 @@ package com.example.TechBuds.Controllers;
 
 import com.example.TechBuds.Entities.PlayerStats;
 import com.example.TechBuds.Entities.User;
+import com.example.TechBuds.Modal.PlayerPriceDTO;
+import com.example.TechBuds.Modal.PlayerStatDTO;
 import com.example.TechBuds.Services.UserServiceInclude;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +33,9 @@ public class UserController {
     }
 
     @GetMapping("/getPlayers")
-    public ResponseEntity<ArrayList<PlayerStats>> getPlayers(@RequestParam("listOfIds") List<String> ids){
+    public ResponseEntity<ArrayList<PlayerPriceDTO>> getPlayers(@RequestParam("listOfIds") List<String> ids){
 
-        ArrayList<PlayerStats> playerStats = userServiceInclude.listOfPlayers((ArrayList<String>) ids);
+        ArrayList<PlayerPriceDTO> playerStats = userServiceInclude.listOfPlayers((ArrayList<String>) ids);
         return  ResponseEntity.ok(playerStats);
 
     }

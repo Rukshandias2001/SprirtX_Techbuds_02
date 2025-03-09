@@ -1,18 +1,14 @@
 import React, { useState, useEffect, useContext, createContext } from "react";
 import axios from "axios";
 
-
 const TeamContext = createContext();
 
-
 export const TeamProvider = ({ children }) => {
-  
   const [team, setTeam] = useState([]); // Stores selected players
   const [budget, setBudget] = useState(9000000); // Rs. 9,000,000 budget
   const [totalPoints, setTotalPoints] = useState(0); // Total points
   const [players, setPlayers] = useState([]); // Stores players from API
 
-  
   useEffect(() => {
     axios
       .get("http://localhost:8080/players/getPlayersByPrice")
@@ -65,11 +61,9 @@ export const TeamProvider = ({ children }) => {
     return Math.round(points); // Ensure integer points
   };
 
- 
   const addPlayer = async (player) => {
-    localStorage.setItem("userId", "67cd525ad5bcd10c89be8519");
-    const userId = localStorage.getItem("userId"); 
-    
+    const userId = localStorage.getItem("userId");
+
     if (!userId) {
       alert("User ID not found! Please log in again.");
       return;
@@ -80,7 +74,7 @@ export const TeamProvider = ({ children }) => {
       return;
     }
 
-    if (team.some((p) => p.id === player.id)) {
+    if (team.some((p) => String(p.id) === String(player.id))) {
       alert("Player is already in your team!");
       return;
     }
@@ -91,44 +85,106 @@ export const TeamProvider = ({ children }) => {
     }
 
     try {
-      await axios.get(`http://localhost:8080/editUser/addPlayer?userId=${userId}&id=${player.id}&price=${player.price}`);
+      await axios.get(
+        `http://localhost:8080/editUser/addPlayer?userId=${userId}&id=${player.id}&price=${player.price}`
+      );
+     
 
       setTeam((prevTeam) => [...prevTeam, player]);
       setBudget((prevBudget) => prevBudget - player.price); // Deduct budget
       alert(`${player.name} has been added to your team!`);
     } catch (error) {
-      console.error("Error adding player:", error);
-      alert("Failed to add player. Try again.");
+      console.error("❌ Error adding player:", error);
+      alert("❌ Failed to add player. Try again.");
     }
   };
 
-  
-  const removePlayer = async (playerId) => {
+  useEffect(() => {
     const userId = localStorage.getItem("userId");
+    if (!userId) return;
+
+    axios
+      .get(`http://localhost:8080/editUser/getUser?userId=${userId}`)
+      .then((response) => {
+        console.log("📢 Fetched team from DB:", response.data);
+
+        if (!response.data || !response.data.listOfPlayers) {
+          console.error("❌ No players found in DB response!");
+          return;
+        }
+
+        const playerIds = response.data.listOfPlayers; // Array of player IDs
+        if (!Array.isArray(playerIds) || playerIds.length === 0) {
+          console.error("❌ Invalid data format for players!");
+          return;
+        }
+
+        axios
+          .get(
+            `http://localhost:8080/editUser/getPlayers?listOfIds=${playerIds.join(
+              ","
+            )}`
+          )
+          .then((playerResponse) => {
+            console.log("📢 Player details from DB:", playerResponse.data);
+            setTeam(playerResponse.data); // ✅ Set fetched players
+          })
+          .catch((error) =>
+            console.error("❌ Error fetching player details:", error)
+          );
+      })
+      .catch((error) =>
+        console.error("❌ Error fetching team from DB:", error)
+      );
+  }, []);
+
+  const removePlayer = async (playerId) => {
+    const SelectedPlayer = players.find((p) => p.id === playerId);
+
+    const userId = localStorage.getItem("userId");
+
     if (!userId) {
       alert("User ID not found! Please log in again.");
       return;
     }
 
-    const playerToRemove = team.find((p) => p.id === playerId);
+    console.log("📢 Current Team:", team);
+    console.log("📢 Trying to remove Player ID:", playerId);
+
+    const playerToRemove = team.find((p) => String(p.id) === String(playerId));
+
+    console.log("📢 Found Player:", playerToRemove);
+
     if (!playerToRemove) {
-      alert("Player not found in your team!");
+      alert("❌ Player not found in your team!");
       return;
     }
 
     try {
-      await axios.get(`http://localhost:8080/editUser/removePlayer?userId=${userId}&id=${playerId}`);
+      console.log(userId);
+      console.log(playerId);
+      console.log("--------------------");
+      console.log(playerToRemove.price);
+      // ✅ Send DELETE request to remove the player
+      await axios.delete(
+        `http://localhost:8080/editUser/deletePlayer?userId=${userId}&id=${playerId}&price=${SelectedPlayer.price}`
+      );
 
-      setTeam((prevTeam) => prevTeam.filter((p) => p.id !== playerId));
-      setBudget((prevBudget) => prevBudget + playerToRemove.price); 
-      alert(`${playerToRemove.name} has been removed from your team.`);
+      // ✅ Remove from the UI
+      setTeam((prevTeam) =>
+        prevTeam.filter((p) => String(p.id) !== String(playerId))
+      );
+      setBudget((prevBudget) => prevBudget + playerToRemove.price ||0); // Restore budget
+   
+      alert(`❌ ${playerToRemove.name} has been removed from your team.`);
+
+      
     } catch (error) {
-      console.error("Error removing player:", error);
-      alert("Failed to remove player. Try again.");
+      console.error("❌ Error removing player:", error);
+      alert("❌ Failed to remove player. Try again.");
     }
   };
 
-  
   useEffect(() => {
     if (team.length === 11) {
       const points = team.reduce((acc, player) => acc + player.points, 0);
@@ -140,12 +196,19 @@ export const TeamProvider = ({ children }) => {
 
   return (
     <TeamContext.Provider
-      value={{ team, budget, totalPoints, players, addPlayer, removePlayer }}
+      value={{
+        team,
+        budget,
+        totalPoints,
+        players,
+        addPlayer,
+        removePlayer,
+        setTeam,
+      }}
     >
       {children}
     </TeamContext.Provider>
   );
 };
-
 
 export const useTeam = () => useContext(TeamContext);
