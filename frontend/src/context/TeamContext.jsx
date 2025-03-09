@@ -14,19 +14,74 @@ export const TeamProvider = ({ children }) => {
 
   // Fetch players from API when component mounts
   useEffect(() => {
-    axios.get("http://localhost:8080/players/getPlayersByPrice  this is for the price")
-      .then(response => setPlayers(response.data))
-      .catch(error => console.error("Error fetching players:", error));
+    axios
+      .get("http://localhost:8080/players/getPlayersByPrice")
+      .then((response) => {
+        const processedPlayers = response.data.map((player) => ({
+          ...player,
+          points: calculatePlayerPoints(player),
+        }));
+
+        setPlayers(processedPlayers);
+      })
+      .catch((error) => console.error("Error fetching players:", error));
   }, []); // Dependency array added to run effect only once
+
+  const calculatePlayerPoints = (player) => {
+    let points = 0;
+  
+    // 🏏 Batting Points
+    points += player.totalRuns; // 1 point per run
+  
+    // Strike Rate Bonus (if faced at least 30 balls)
+    if (player.ballsFaced > 30) {
+      points += (player.totalRuns / player.ballsFaced) * 10;
+    }
+  
+    // Half-century & Century Bonuses
+    if (player.totalRuns >= 100) {
+      points += 20; // Century Bonus
+    } else if (player.totalRuns >= 50) {
+      points += 10; // Half-century Bonus
+    }
+  
+    // 🎯 Bowling Points
+    points += player.wickets * 25; // 25 points per wicket
+  
+    // Economy Rate Bonus (If they bowled at least 5 overs)
+    if (player.oversBowled >= 5) {
+      let economyRate = player.runsConceded / player.oversBowled;
+      if (economyRate < 3.5) {
+        points += 5;
+      }
+    }
+  
+    // 🏆 Hat-trick Bonus (3 wickets in an innings)
+    if (player.wickets >= 3) {
+      points += 30;
+    }
+  
+    return Math.round(points); // Ensure integer points
+  };
+  
 
   // Function to add a player to the team
   const addPlayer = (player) => {
     if (team.length >= 11) return alert("Team is already full!!");
-    if (team.some(p => p.id === player.id)) return alert("Player already in team");
+    if (team.some((p) => p.id === player.id))
+      return alert("Player already in team");
     if (budget - player.price < 0) return alert("Not enough budget");
 
-    setTeam([...team, player]); // Adds player to the team
+    // setTeam(prevTeam => [...prevTeam, player]);
+    setTeam((prevTeam) => {
+      const newTeam = [...prevTeam, player];
+      console.log("✅ New Team After Adding:", newTeam);  // ✅ Debugging Line
+      return newTeam;
+    });
+    
     setBudget(budget - player.price); // Deducts price of player from budget
+
+    alert(`✅ ${player.name} has been added to your team!`);
   };
 
   // Function to remove a player from the team
@@ -34,7 +89,7 @@ export const TeamProvider = ({ children }) => {
     const removedPlayer = team.find((player) => player.id === playerId);
     if (!removedPlayer) return;
 
-    setTeam(team.filter(p => p.id !== playerId));
+    setTeam(team.filter((p) => p.id !== playerId));
     setBudget(budget + removedPlayer.price); // Refunds budget when player is removed
   };
 
@@ -49,7 +104,9 @@ export const TeamProvider = ({ children }) => {
   }, [team]); // This runs whenever the team changes
 
   return (
-    <TeamContext.Provider value={{ team, budget, totalPoints, players, addPlayer, removePlayer }}>
+    <TeamContext.Provider
+      value={{ team, budget, totalPoints, players, addPlayer, removePlayer }}
+    >
       {children}
     </TeamContext.Provider>
   );
