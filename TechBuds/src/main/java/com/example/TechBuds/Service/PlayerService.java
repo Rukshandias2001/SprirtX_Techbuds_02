@@ -10,6 +10,6 @@ public interface PlayerService {
     ArrayList<PlayerStatDTO> getPlayerStats();
     ArrayList<PlayerPriceDTO> getPlayerPrice();
 
-
+    ArrayList<PlayerStats> getPlayer();
 
 }

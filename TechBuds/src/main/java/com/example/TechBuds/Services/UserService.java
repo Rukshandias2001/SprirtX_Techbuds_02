@@ -8,7 +8,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -38,7 +40,9 @@ public class UserService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
-                user.getAuthorities()
+                Collections.singletonList(new SimpleGrantedAuthority(
+                    user.getAdmin() ? "ROLE_ADMIN" : "ROLE_USER"
+                ))
         );
     }
 }
