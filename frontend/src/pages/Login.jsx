@@ -49,7 +49,7 @@ const Login = () => {
       localStorage.setItem("userRole", role);
 
       // Redirect based on role
-      if (role === "ADMIN") {
+      if (role) {
         navigate("/admin-dashboard");
       } else {
         navigate("/players");
