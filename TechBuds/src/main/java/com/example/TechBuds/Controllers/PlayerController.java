@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 
 @RequestMapping("/players")
-@CrossOrigin(origins = "http://localhost:5174")
+@CrossOrigin(origins = "http://localhost:5173")
 public class PlayerController {
     @Autowired
     PlayerService playerService;
@@ -31,6 +31,8 @@ public class PlayerController {
         ArrayList<PlayerStats> players = playerService.getPlayer();
         return  ResponseEntity.ok().body(players);
     }
+
+
 
 
 
