@@ -70,6 +70,7 @@ public class WebSecurityConfig {
                                 "/players/**" // Allow all player-related endpoints
                                 ,"/Admin/**"
 
+
                         ).permitAll()
                         .anyRequest().authenticated() // Only require authentication for the remaining requests
                 )
