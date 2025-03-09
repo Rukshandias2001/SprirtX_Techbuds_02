@@ -15,6 +15,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -49,6 +50,24 @@ public class PlayerServiceImpl implements PlayerService {
         return (ArrayList<PlayerStats>) playerStatsRepository.findAll();
 
     }
+
+    @Override
+    public PlayerStats savePlayerStat(PlayerStats playerStat) {
+        PlayerStats save = playerStatsRepository.save(playerStat);
+
+        return save;
+    }
+
+    @Override
+    public boolean deletePlayerStat(String id) {
+        return playerStatsRepository.findById(id)
+                .map(player -> {
+                    playerStatsRepository.deleteById(id);
+                    return true;
+                })
+                .orElse(false);
+    }
+
 
     public ArrayList<PlayerPriceDTO> getPlayerPrice() {
         List<PlayerStats> all = playerStatsRepository.findAll();
