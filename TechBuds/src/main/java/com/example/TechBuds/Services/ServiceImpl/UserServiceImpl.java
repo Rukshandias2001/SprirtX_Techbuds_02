@@ -84,5 +84,10 @@ public class UserServiceImpl implements UserServiceInclude {
         return (ArrayList<PlayerStats>)  playerStatsRepository.findByIdIn(listOfPlayers);
 
     }
+    public User getUserById(String id) {
+        Optional<User> byId = userRepository.findById(id);
+        User user = byId.get()  ;
+        return user;
+    }
 
 }
