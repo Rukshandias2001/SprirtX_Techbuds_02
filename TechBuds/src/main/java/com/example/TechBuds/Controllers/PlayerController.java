@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 
 @RequestMapping("/players")
-@CrossOrigin(origins = "http://localhost:5174")
+@CrossOrigin(origins = "http://localhost:5173")
 public class PlayerController {
     @Autowired
     PlayerService playerService;

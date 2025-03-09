@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useTeam } from "../context/TeamContext";
 import "../styles/SelectTeam.css";
+import defaultAvatar from "../assets/avatar.png";
 
 export default function SelectTeam() {
   const { players, addPlayer, team } = useTeam();
@@ -36,25 +37,44 @@ export default function SelectTeam() {
         ))}
       </div>
 
-   
       <div className="player-list-team">
         {filteredPlayers.length > 0 ? (
           filteredPlayers.map((player) => (
             <div key={player.id} className="player-card-team">
+              <div className="player-avatar-container">
+                <img
+                  src={defaultAvatar}
+                  alt="Player Avatar"
+                  className="player-avatar"
+                />
+              </div>
               <div>
                 <h3>{player.name}</h3>
                 <p>{player.university}</p>
                 <p>Rs. {player.price.toFixed(2).toLocaleString()}</p>
               </div>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  addPlayer(player);
-                }}
-                className="add-button-team"
-              >
-                + Add
-              </button>
+
+              {team.some((p) => p.id === player.id) ? (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removePlayer(player.id);
+                  }}
+                  className="remove-button-team"
+                >
+                  ❌ Remove
+                </button>
+              ) : (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addPlayer(player);
+                  }}
+                  className="add-button-team"
+                >
+                  + Add
+                </button>
+              )}
             </div>
           ))
         ) : (
