@@ -1,10 +1,10 @@
-package com.example.TechBuds.Service.ServiceImpl;
+package com.example.TechBuds.Services.ServiceImpl;
 
 import com.example.TechBuds.Entities.PlayerStats;
 import com.example.TechBuds.Modal.PlayerPriceDTO;
 import com.example.TechBuds.Modal.PlayerStatDTO;
 import com.example.TechBuds.Repositories.PlayerStatsRepository;
-import com.example.TechBuds.Service.PlayerService;
+import com.example.TechBuds.Services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
