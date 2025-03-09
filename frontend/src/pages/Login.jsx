@@ -25,25 +25,25 @@ const Login = () => {
         }
       );
 
-      const { token } = response.data;
+      const token = response.data;
       console.log("Login successful:", response.data);
 
       // Store token in localStorage
       localStorage.setItem("token", token);
 
       // Get user details with the token
-      const userResponse = await axios.get(
+      const user = await axios.get(
         "http://localhost:8080/api/auth/current-user",
         {
           headers: {
-            Authorization: `Bearer ${token}`, // ✅ Fixed string template
-            "Content-Type": "application/json",
-          },
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
         }
       );
 
-      const { role } = userResponse.data; // ✅ Extract role properly
-      console.log("User data:", userResponse.data);
+      const { role } = user.data; // ✅ Extract role properly
+      console.log("User data:", user.data);
 
       // Store user role in localStorage
       localStorage.setItem("userRole", role);
