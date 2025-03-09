@@ -15,10 +15,10 @@ import java.util.ArrayList;
 
 @RestController
 
-@CrossOrigin
-@RequestMapping("/players")
-public class PlayerController {
 
+@RequestMapping("/players")
+@CrossOrigin(origins = "http://localhost:5174")
+public class PlayerController {
     @Autowired
     PlayerService playerService;
 

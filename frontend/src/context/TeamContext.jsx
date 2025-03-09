@@ -17,6 +17,7 @@ export const TeamProvider = ({ children }) => {
     axios
       .get("http://localhost:8080/players/getPlayersByPrice")
       .then((response) => {
+        console.log(response.data)
         const processedPlayers = response.data.map((player) => ({
           ...player,
           points: calculatePlayerPoints(player),

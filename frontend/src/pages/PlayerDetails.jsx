@@ -7,7 +7,7 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import playersData from "../data/players.json";
-import avatar from "../assets/av.png";
+import avatar from "../assets/image.png";
 import Navbar from './Navbar';
 import batsmanImg from "../assets/bat3.png";
 import bowlerImg from "../assets/bowler.png";
