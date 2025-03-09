@@ -22,8 +22,6 @@ public class PlayerController {
     @Autowired
     PlayerService playerService;
 
-
-
     @GetMapping("/getPlayersByPrice")
     public  ResponseEntity<ArrayList<PlayerPriceDTO>> getPlayerInDetail(){
         ArrayList<PlayerPriceDTO> playerPrice = playerService.getPlayerPrice();

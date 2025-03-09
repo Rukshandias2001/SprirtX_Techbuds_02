@@ -1,25 +1,34 @@
-import React from "react";
-import {useTeam} from "../context/TeamContext";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useTeam } from "../context/TeamContext";
+import "../styles/SelectTeam.css";
 
 export default function SelectTeam() {
-  const {players,addPlayer} = useTeam();
-  const [selectedCategory,setSelectedCategory]= useState("Batsmen");
+  const { players, addPlayer, team } = useTeam();
 
-  const filteredPlayers = players.filter(players =>players.category === selectedCategory);
+  const [selectedCategory, setSelectedCategory] = useState("Batsman");
 
+  const filteredPlayers = players.filter(
+    (player) => player.category === selectedCategory
+  );
 
   return (
-    <div className="p-5">
-      <h2 className="text-2xl font-bold text-gray-700">⚽ Select Your Team</h2>
+    <div className="select-team-container">
+      <div className="myTeam-div">
+        <Link to="/team">
+          <button className="myTeam-btn">My Team</button>
+        </Link>
+      </div>
 
-      {/* Category Selection Buttons */}
-      <div className="mt-4 flex gap-4">
-        {["Batsmen", "Bowlers", "All-rounders", "Wicketkeepers"].map(category => (
-          <button 
+      <h2>🏏 Select Your Team</h2>
+
+      <div className="category-buttons">
+        {["Batsman", "Bowler", "All-Rounder"].map((category) => (
+          <button
             key={category}
             onClick={() => setSelectedCategory(category)}
-            className={`px-4 py-2 rounded ${
-              selectedCategory === category ? "bg-blue-500 text-white" : "bg-gray-300"
+            className={`category-button ${
+              selectedCategory === category ? "active" : ""
             }`}
           >
             {category}
@@ -27,29 +36,33 @@ export default function SelectTeam() {
         ))}
       </div>
 
-      {/* Player List */}
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+   
+      <div className="player-list-team">
         {filteredPlayers.length > 0 ? (
-          filteredPlayers.map(player => (
-            <div key={player.id} className="border p-4 rounded-lg shadow-md bg-white flex justify-between">
+          filteredPlayers.map((player) => (
+            <div key={player.id} className="player-card-team">
               <div>
-                <h3 className="font-bold">{player.name}</h3>
+                <h3>{player.name}</h3>
                 <p>{player.university}</p>
-                <p className="text-blue-600">Rs. {player.price.toLocaleString()}</p>
+                <p>Rs. {player.price.toFixed(2).toLocaleString()}</p>
               </div>
               <button
-                onClick={() => addPlayer(player)}
-                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  addPlayer(player);
+                }}
+                className="add-button-team"
               >
-                Add ➕
+                + Add
               </button>
             </div>
           ))
         ) : (
-          <p className="text-gray-500">No players available in this category.</p>
+          <p className="text-gray-500">
+            No players available in this category.
+          </p>
         )}
       </div>
     </div>
   );
-
 }

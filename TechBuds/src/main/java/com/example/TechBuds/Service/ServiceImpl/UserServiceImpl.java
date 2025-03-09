@@ -1,5 +1,6 @@
 package com.example.TechBuds.Service.ServiceImpl;
 
+import com.example.TechBuds.Entities.User;
 import com.example.TechBuds.Entities.Users;
 import com.example.TechBuds.Repositories.UserRepository;
 import com.example.TechBuds.Service.UserService;
