@@ -1,69 +1,269 @@
-.home-container {
-  /* background-image: url("../assets/cri-home.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat; */
-  width: 100vw;
-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  position: relative;
-}
-
-.logo-1 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.logo-1 img {
-  max-width: 400px;
-  height: auto;
-  margin-top: -100px;
-}
-
-.svg-container {
-  position: absolute;
-  top: 35%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.teams-container {
-  position: absolute;
-  bottom: 100px;
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-end;
-}
-
-.teams-left,
-.teams-right {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.team-bubble {
-  width: 100px;
-  height: 100px;
-  background-color: #FFB22C;
-  color: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 20px;
-  font-weight: bold;
+/* General */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+ 
+  color: rgb(18, 17, 17);
   text-align: center;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  overflow-x: hidden;
 }
 
-.team-center {
-  position: absolute;
-  bottom: -40px;
-  left: 50%;
-  transform: translateX(-50%);
+/* Navbar */
+
+
+
+.join-btn {
+  padding: 10px 20px;
+  background-color: #45a29e;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.join-btn:hover {
+  background-color: #66fcf1;
+}
+
+/* Hero Section */
+.hero {
+background-image: url('../assets/banneee.png');
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-repeat:no-repeat ;
+  background-size: cover;
+  width: 100%;
+}
+
+.hero h1 {
+  font-size: 36px;
+  max-width: 600px;
+}
+
+/* Game Cards */
+.game-cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  background: radial-gradient(
+    303px at 0% 7%,
+    #0a2342 31.1%,
+    #1a3a5a 36.4%,
+    #2a4b6a 50.9%,
+    #FFD700 60.7%,
+    #e6b800 72.5%,
+    #0a2342 72.6%
+
+  );
+}
+
+
+/* Chatbot */
+.chatbot-container {
+  background-color: #0a2342;
+
+  /* padding: 50px; */
+}
+
+.chat-window {
+  width: 50%;
+  margin: 20px auto;
+ 
+  color: black;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.chat-window .bot {
+  color: green;
+}
+
+.chat-window .user {
+  color: blue;
+}
+
+.chat-window input {
+  width: 75%;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.chat-window button {
+  padding: 10px;
+  background: #45a29e;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.chat-window button:hover {
+  background: #66fcf1;
+}
+
+/* Footer */
+.footer {
+  background: #1f2833;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.game-logo {
+  width:100%; /* Adjust the size as needed */
+  height: auto;
+  margin-bottom: 10px;
+}
+
+
+.hero-container3 {
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center the hero content horizontally */
+ 
+}
+
+
+
+.hero-images {
+ 
+  width: 500px;
+  height: 400px;
+  margin-left: 1100px; /* Space between the image and text */
+}
+
+.hero-images img {
+  width: 100%;
+  height: auto;
+  margin-top: 70px;
+}
+
+.hero-images img {
+  width: 100%;
+  height: auto;
+  margin-top: 70px;
+}
+
+.hero-lottie {
+  /* flex: 1;  */
+  width: 600px;
+  margin-top: 70px;
+  /* From https://css.glass */
+
+}
+
+.hero h1 {
+  font-size: 36px;
+  max-width: 600px;
+  margin-top: -260px;
+  background: rgba(30, 28, 28, 0.2);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(5px);
+-webkit-backdrop-filter: blur(5px);
+border: 1px solid rgba(255, 255, 255, 0.3);
+padding: 30px;
+text-align: center;
+
+  
+  /* margin-bottom: 20px; */
+}
+
+.join-btn {
+  padding: 10px 20px;
+  background-color: #45a29e;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 50px;
+  margin-left:150px ;
+  margin-top: -30px;
+}
+
+.join-btn:hover {
+  background-color: #66fcf1;
+}
+
+
+.card3{
+  width: 320px;
+  height: 450px;
+  border-radius: 20px;
+  box-shadow: 0 8px 15px rgba(255, 215, 0, 0.5); /* Gold shadow */
+  text-align: center;
+  background: linear-gradient(45deg, #0a2342, #1a3a5a, #2a4b6a, #FFD700); /* Dark blue to gold gradient */
+  animation: glitter 6s infinite;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center;
+  justify-content: space-between; */
+  padding: 20px;
+  margin-top: 10px;
+  font-size: 20px;
+}
+
+.wicket{
+  margin-top: -250px;
+ margin-left: -1200px;
+ width: 500px;
+}
+
+.teamupdate h1 {
+  margin-bottom: 20px; /* Adjust spacing between heading and cards */
+  font-size: 36px;
+  font-weight: bold;
+  color: white;
+}
+
+.mc{
+  display: flex;
+  gap: 50px;
+}
+
+.robot-icon {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+
+.start-chat-btn {
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.start-chat-btn:hover {
+  background-color: #0056b3;
+}
+
+
+
+.robot-icon-container {
+  display: flex;
+  justify-content: center;  /* Center the elements horizontally */
+  align-items: center;  /* Center the elements vertically */
+  gap: 20px;  /* Space between the elements */
+}
+
+.side-image {
+  width: 200px;  /* Adjust as needed */
+  height: 200px;  /* Adjust as needed */
+  border-radius: 50%;
+}
+
+.robot-icon {
+  width: 400px;  /* Adjust the robot icon size */
+  height: auto;
 }

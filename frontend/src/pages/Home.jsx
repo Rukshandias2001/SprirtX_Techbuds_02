@@ -1,57 +1,116 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "../styles/home.css";
-import Navbar from "./Navbar";
-import logo1 from "../assets/l2.png";
+import l3 from "../assets/image copy 13.png";
+import l4 from "../assets/image copy 14.png";
+import l5 from "../assets/image copy 15.png";
+import l6 from "../assets/l2.png";
+import m11 from "../assets/ball.mp4"; 
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
-const teams = [
-  "Team 1", "Team 2", "Team 3", "Team 4", "Team 5",
-  "Team 6", "Team 7", "Team 8", "Team 9", "Team 10", "Team 11"
-];
+
+
 
 const Home = () => {
+  const [messages, setMessages] = useState([{ sender: "bot", text: "Hello! How can I help you?" }]);
+  const [input, setInput] = useState("");
+
+  const sendMessage = () => {
+    if (input.trim() === "") return;
+    setMessages([...messages, { sender: "user", text: input }]);
+    setInput("");
+    
+    setTimeout(() => {
+      setMessages((prev) => [...prev, { sender: "bot", text: "I'm just a demo chatbot!" }]);
+    }, 1000);
+  };
+
   return (
-    <div className="home-container">
-      <div className="logo-1">
-        <img src={logo1} alt="logo" />
-      </div>
+    <div>
+     
 
-      <div className="svg-container">
-        <svg width="800" height="500" viewBox="0 0 800 500">
-          <defs>
-            <path
-              id="upperCurve"
-              d="M 100 250 Q 400 50 700 250"
-              fill="transparent"
-            />
-          </defs>
-          <text fontSize="60" fontWeight="200px" fill="#FFB22C" stroke="#000" strokeWidth="6">
-            <textPath href="#upperCurve" startOffset="50%" textAnchor="middle">
-              INTER-UNIVERSITY
-            </textPath>
-          </text>
-        </svg>
-      </div>
+      {/* Hero Section */}
+{/* Hero Section */}
+{/* Hero Section */}
+<div className="hero-container3">
+  <div className="hero">
+    <div className="hero-images">
+    <DotLottieReact
+      src="https://lottie.host/f47ae04a-dd03-4fe2-a0b2-1b57cd698720/bsssRLFBZR.lottie"
+      loop
+      autoplay
+      className="hero-lottie"
+    />
+    </div>
+    <div className="hero-text">
+      <h1>The Ultimate Inter-University Fantasy Cricket Game</h1>
+      <button className="join-btn">Join Now</button>
+    </div>
+    
+  </div>
+</div>
 
-      {/* Bubbles for Teams */}
-      <div className="teams-container">
-        <div className="teams-left">
-          {teams.slice(0, 5).map((team, index) => (
-            <div key={index} className="team-bubble">{team}</div>
-          ))}
-        </div>
 
-        <div className="teams-right">
-          {teams.slice(5, 10).map((team, index) => (
-            <div key={index} className="team-bubble">{team}</div>
-          ))}
-        </div>
+      {/* Game Cards */}
+   {/* Game Cards */}
+<div className="game-cards">
+<div className="right-gradient"></div>
+<div className="teamupdate">
+<h1> Latest Updates</h1>
+ </div>
+ <div className="mc">
+  <div className="card3">
 
-        <div className="team-center">
-          <div className="team-bubble">{teams[10]}</div>
-        </div>
-      </div>
+    <img src={l3} alt="Unicesty Logo" className="game-logo" />
+    <p>🏏 Unicesty | 3,159 Teams</p>
+  </div>
+  <div className="card3">
+    <img src={l4} alt="Untasy Logo" className="game-logo" />
+    <p>🏏 Untasy | 7,300 Teams</p>
+  </div>
+  <div className="card3">
+    <img src={l5} alt="Fantasy Logo" className="game-logo" />
+    <p>🏏 Fantasy | 5,579 Teams</p>
+  </div>
+  </div>
+</div>
+
+
+<div id="chatbot" className="chatbot-container">
+  <h2>Chat with our Bot</h2>
+  <div className="chat-window">
+    {/* Flexbox container for robot and images */}
+    <div className="robot-icon-container">
+      <img src={l6} alt="Left Image" className="side-image" />
+      <DotLottieReact
+        src="https://lottie.host/9384df54-cbc8-4fca-abb8-630ef6c4870d/9roxhQNQz0.lottie"
+        loop
+        autoplay
+        className="robot-icon"
+      />
+      <img src={l6} alt="Right Image" className="side-image" />
+    </div>
+
+    {/* Link to the Chat Page */}
+    <Link to="/chat">
+      <button className="start-chat-btn">Start Chat</button>
+    </Link>
+  </div>
+</div>
+
+
+      {/* Footer */}
+      <footer className="footer">
+        <p>© 2024 Fantasy Cricket Game. All Rights Reserved.</p>
+      </footer>
     </div>
   );
 };
 
 export default Home;
+
+
+
+
+
+

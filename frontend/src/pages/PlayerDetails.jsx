@@ -11,6 +11,7 @@ import Navbar from "./Navbar";
 import batsmanImg from "../assets/bat3.png";
 import bowlerImg from "../assets/bowler.png";
 import allRounderImg from "../assets/allr.png";
+import { calculateBattingStrikeRate, calculateBattingAverage, calculateBowlingStrikeRate, calculateEconomyRate } from "../utils/calculateStats";
 
 const playerImages = {
   Batsman: batsmanImg,
@@ -23,17 +24,14 @@ const PlayerDetails = () => {
   const [players, setPlayers] = useState([]);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const navigate = useNavigate();
-  const API_URL = "http://localhost:8080/players/GetPlayers"; // Backend API URL
+  const API_URL = "http://localhost:8080/players/GetPlayers";
 
   useEffect(() => {
     fetch(API_URL)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        // Filter players by selected university
-        const universityPlayers = data.filter(
-          (player) => player.University === universityName
-        );
+        const universityPlayers = data.filter((player) => player.University === universityName);
         setPlayers(universityPlayers);
       })
       .catch((error) => console.error("Error fetching players:", error));
@@ -74,28 +72,17 @@ const PlayerDetails = () => {
           >
             {players.length > 0 ? (
               players.map((player) => (
-                <SwiperSlide key={player.Id} className="swiper-slide">
+                <SwiperSlide key={player.id} className="swiper-slide">
                   <div className="card">
-                    <img
-                      src={playerImages[player.Category] || avatar}
-                      alt={player.Name}
-                      className="player-image"
-                    />
+                    <img src={playerImages[player.Category] || avatar} alt={player.Name} className="player-image" />
                     <h3>{player.Name}</h3>
                     <p className="detail">Category: {player.Category}</p>
-                    <button
-                      className="view-stats"
-                      onClick={() => setSelectedPlayer(player)}
-                    >
-                      View Details
-                    </button>
+                    <button className="view-stats" onClick={() => setSelectedPlayer(player)}>View Details</button>
                   </div>
                 </SwiperSlide>
               ))
             ) : (
-              <p className="no-players">
-                No players found for {universityName}.
-              </p>
+              <p className="no-players">No players found for {universityName}.</p>
             )}
           </Swiper>
         </div>
@@ -105,14 +92,14 @@ const PlayerDetails = () => {
           <div className="modal">
             <div className="modal-content">
               <h2>{selectedPlayer.Name}</h2>
-              <img
-                src={avatar}
-                alt={selectedPlayer.Name}
-                className="modal-avatar"
-              />
+              <img src={avatar} alt={selectedPlayer.Name} className="modal-avatar" />
               <p>University: {selectedPlayer.University}</p>
               <p>Category: {selectedPlayer.Category}</p>
               <p>Total Runs: {selectedPlayer["Total Runs"]}</p>
+              <p>Batting Strike Rate: {calculateBattingStrikeRate(selectedPlayer["Total Runs"], selectedPlayer["Balls Faced"])}</p>
+              <p>Batting Average: {calculateBattingAverage(selectedPlayer["Total Runs"], selectedPlayer["Innings Played"])}</p>
+              <p>Bowling Strike Rate: {calculateBowlingStrikeRate(selectedPlayer["Balls Bowled"], selectedPlayer.Wickets)}</p>
+              <p>Economy Rate: {calculateEconomyRate(selectedPlayer["Runs Conceded"], selectedPlayer["Balls Bowled"])}</p>
               <p>Wickets: {selectedPlayer.Wickets}</p>
               <button onClick={() => setSelectedPlayer(null)}>Close</button>
             </div>
