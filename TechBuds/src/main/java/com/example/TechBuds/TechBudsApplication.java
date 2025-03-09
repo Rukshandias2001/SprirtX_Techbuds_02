@@ -15,6 +15,8 @@ import org.springframework.context.annotation.ComponentScan;
 public class TechBudsApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(TechBudsApplication.class, args);
+
 	}
 }

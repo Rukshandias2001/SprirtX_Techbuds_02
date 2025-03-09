@@ -12,7 +12,7 @@
   justify-content: center;
   align-items: center;
   transition: transform 0.3s ease, opacity 0.3s ease;
-  opacity: 0.5;
+  /* opacity: 0.; */
   transform: scale(0.8);
 }
 
@@ -24,8 +24,8 @@
 
 /* Card Styles */
 .card {
-  width: 300px;
-  height: 400px;
+  width: 320px;
+  height: 450px;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 8px 15px rgba(255, 215, 0, 0.5); /* Gold shadow */
@@ -37,6 +37,14 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px;
+  margin-top: 10px;
+  font-size: 20px;
+}
+
+.detail{
+  margin-top: 0px;
+  padding: 0
+  ;
 }
 
 @keyframes glitter {
@@ -53,7 +61,7 @@
 
 .player-image {
   width: 100%;
-  height: 200px;
+  height: 250px;
   object-fit: cover;
   border-radius: 15px;
 }
@@ -74,7 +82,7 @@
 
 .player-info p {
   font-size: 1rem;
-  color: #fff; /* White text for contrast */
+  color: #ffffff; /* White text for contrast */
 }
 
 /* View Stats Button */
@@ -82,11 +90,11 @@
   background: #FFD700; /* Gold */
   color: #0a2342; /* Dark blue text */
   border: none;
-  padding: 8px 12px;
-  margin-top: 10px;
+  padding: 12px 12px;
+  margin-top: 0px;
   cursor: pointer;
-  border-radius: 5px;
-  font-size: 14px;
+  border-radius: 50px;
+  font-size: 20px;
   transition: background 0.3s ease;
 }
 
@@ -97,7 +105,7 @@
 /* Modal (Player Details) */
 .modal {
   position: fixed;
-  top: 0;
+  top: 5%;
   left: 0;
   width: 100%;
   height: 100%;
@@ -109,7 +117,7 @@
 }
 
 .modal-content {
-  background: #0a2342; /* Dark blue */
+  background: #0a2342; 
   padding: 20px;
   border-radius: 20px;
   text-align: center;
@@ -168,7 +176,7 @@
 /* Background Overlay */
 .pd {
   margin: 0;
-  background-image: url('../assets/o1.png');
+  background-image: url('../assets/fu.png');
   background-size: cover;
   background-position: center;
   min-height: 100vh; /* Full viewport height */
@@ -182,7 +190,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7); /* Dark overlay */
+  background: rgba(15, 14, 14, 0.7); /* Dark overlay */
   z-index: 1;
 }
 
@@ -195,8 +203,8 @@
 
 /* Back Button */
 .back-button {
-  background: #ff5733;
-  color: white;
+  background: #fad208;
+  color: rgb(7, 7, 7);
   border: none;
   padding: 10px 15px;
   font-size: 16px;
@@ -204,7 +212,7 @@
   border-radius: 5px;
   cursor: pointer;
   position: absolute;
-  top: 200px;
+  top: 250px;
   left: 20px;
   z-index: 3; /* Ensure it appears above the wave background */
 }
@@ -216,9 +224,25 @@
 /* playerDetails.css */
 
 .battle-arena1 {
-  padding-top: 80px; /* Adjust this value based on the height of your Navbar */
-  text-align: center;
+  /* Adjust this value based on the height of your Navbar */
+  /* text-align: center;
   color: white;
   font-size: 2rem;
-  margin-bottom: 20px; /* Optional: Add some space below the heading */
+  margin-bottom: 20px;  */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(10, 35, 66, 0.8);
+  color: white;
+  padding: 70px 20px 20px 20px;
+  font-size: 22px;
+  font-weight: bold;
+  width: 100%;
+  
+  
+  z-index: 1;
+  text-align: center;
+
+ 
 }
