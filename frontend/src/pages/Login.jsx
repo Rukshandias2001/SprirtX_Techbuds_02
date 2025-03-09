@@ -1,26 +1,47 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "../styles/auth.css";
 
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-
-    // Simulate login logic (replace with your API call)
-    const loginData = { email, password };
-    console.log("Logging in with:", loginData);
-
-    // Redirect based on role (example: hardcoded for demo)
-    const role = email.includes("admin") ? "Admin" : "Customer"; // Example logic
-    if (role === "Admin") {
-      navigate("/admin-dashboard"); // Redirect to admin dashboard
-    } else {
-      navigate("/players"); // Redirect to players page for customers
+    setError("");
+    setLoading(true);
+    console.log("Login", username);
+    console.log("Password", password);
+    try {
+      // Make API call to authenticate
+      const response = await axios.post("http://localhost:8080/api/auth/authenticate", {
+        username: username,
+        password: password
+      });
+console.log("Success", response.data);
+      // Handle successful login
+      const { token, role } = response.data;
+      
+      // Store token in localStorage
+      localStorage.setItem("token", token);
+      localStorage.setItem("userRole", role);
+      
+      // Redirect based on role
+      if (role === "ADMIN") {
+        navigate("/admin-dashboard");
+      } else {
+        navigate("/players");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("Invalid credentials. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -29,15 +50,16 @@ const Login = () => {
       <div className="auth-card">
         <h1>🏏 Login</h1>
         <p>Welcome back to the Ultimate Cricket Battle!</p>
+        {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleLogin}>
           <div className="input-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="username">Username</label>
             <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter your username"
               required
             />
           </div>
@@ -52,8 +74,8 @@ const Login = () => {
               required
             />
           </div>
-          <button type="submit" className="auth-button">
-            Login
+          <button type="submit" className="auth-button" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
         <p className="auth-link">
