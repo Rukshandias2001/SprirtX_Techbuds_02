@@ -62,7 +62,9 @@ export const TeamProvider = ({ children }) => {
   };
 
   const addPlayer = async (player) => {
-    const userId = localStorage.getItem("userId");
+
+   const userId = localStorage.getItem("userId") || "67cd525ad5bcd10c89be8519";
+
 
     if (!userId) {
       alert("User ID not found! Please log in again.");
