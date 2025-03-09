@@ -1,0 +1,23 @@
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden; /* Removes side white space */
+}
+
+.home-container {
+  background-image: url("../assets/cri-home.png");
+  background-size: cover; /* Ensures the image covers the entire area */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat;
+  width: 100vw; 
+  height: 100vh; /* Covers full viewport height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main-part{
+  display: flex;
+}
