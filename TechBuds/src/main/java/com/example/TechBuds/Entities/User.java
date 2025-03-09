@@ -3,11 +3,14 @@ package com.example.TechBuds.Entities;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Document(collection = "users")
 public class User {
@@ -19,12 +22,20 @@ public class User {
     private String username;
     
     private String password;
-    
-    private String email;
-    
-    // Replace roles list with a single role
-    private String role;
-    
+
+    @Field("listOfPlayers")
+    private Set<String> listOfPlayers = new HashSet<>();
+
+    private double price = 9000000;
+
+    public Set<String> getListOfPlayers() {
+        return listOfPlayers;
+    }
+
+    public void setListOfPlayers(Set<String> listOfPlayers) {
+        this.listOfPlayers = listOfPlayers;
+    }
+
     private Boolean admin = false;
     
     // Getters and setters
@@ -52,21 +63,7 @@ public class User {
         this.password = password;
     }
     
-    public String getEmail() {
-        return email;
-    }
-    
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
-    public String getRole() {
-        return role;
-    }
-    
-    public void setRole(String role) {
-        this.role = role;
-    }
+
     
     public Boolean getAdmin() {
         return admin;
@@ -75,8 +72,13 @@ public class User {
     public void setAdmin(Boolean admin) {
         this.admin = admin;
     }
-    
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(role));
+
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

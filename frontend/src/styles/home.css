@@ -1,23 +1,69 @@
-
-html, body, #root {
-  margin: 0;
-  padding: 0;
+.home-container {
+  /* background-image: url("../assets/cri-home.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat; */
   width: 100vw;
   height: 100vh;
-  overflow-x: hidden; /* Removes side white space */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
 }
 
-.home-container {
-  background-image: url("../assets/cri-home.png");
-  background-size: cover; /* Ensures the image covers the entire area */
-  background-position: center; /* Centers the image */
-  background-repeat: no-repeat;
-  width: 100vw; 
-  height: 100vh; /* Covers full viewport height */
+.logo-1 {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.main-part{
+
+.logo-1 img {
+  max-width: 400px;
+  height: auto;
+  margin-top: -100px;
+}
+
+.svg-container {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.teams-container {
+  position: absolute;
+  bottom: 100px;
+  width: 100%;
   display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+}
+
+.teams-left,
+.teams-right {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.team-bubble {
+  width: 100px;
+  height: 100px;
+  background-color: #FFB22C;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.team-center {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
 }

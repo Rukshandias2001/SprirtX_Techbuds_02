@@ -18,6 +18,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/auth")
+
+@CrossOrigin(origins = "http://localhost:5174")
+
 public class AuthController {
 
     private final UserService userService;
@@ -47,13 +50,7 @@ public class AuthController {
                 return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body("Username already exists");
             }
-            
-            // Set role based on admin flag
-            if (user.getAdmin() != null && user.getAdmin()) {
-                user.setRole("ADMIN");
-            } else {
-                user.setRole("GENERAL");
-            }
+
             
             // Save the user to the database
             User savedUser = userService.saveUser(user, passwordEncoder);
