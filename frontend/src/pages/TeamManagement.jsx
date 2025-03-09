@@ -7,24 +7,43 @@ import "../styles/TeamManagement.css";
 export default function TeamManagement() {
   const { team, totalPoints, removePlayer, setTeam } = useTeam();
   const userId = "67cd525ad5bcd10c89be8519"; // Dummy User ID
+  const [budget, setBudget] = useState(0);
 
   useEffect(() => {
-    console.log(" Team in TeamManagement:", team);
-  }, [team]);
+    if (!userId) return;
 
-  // Fetch saved players from the database on page load
-  useEffect(() => {
-    if (!userId || team.length === 0) return;
-    
-    const listOfIds = team.map(player => player.id).join(",");
-    
+    // Step 1: Fetch the list of player IDs
     axios
-      .get(`http://localhost:8080/editUser/getPlayers?listOfIds=${listOfIds}`)
-      .then((response) => {
-        console.log("Fetched team from DB:", response.data);
-        setTeam(response.data);
+      .get(`http://localhost:8080/editUser/getUser?userId=${userId}`)
+      .then(async (response) => {
+        console.log("📢 Fetched user data:", response.data);
+        setBudget(response.data.price || 0);
+
+        const listOfPlayerIds = response.data.listOfPlayers || []; // Ensure it exists
+
+        if (listOfPlayerIds.length === 0) {
+          console.log("No players found for this user.");
+          setTeam([]);
+          return;
+        }
+
+        try {
+          // Step 2: Fetch full player details
+          const playersResponse = await axios.get(
+            `http://localhost:8080/editUser/getPlayers?listOfIds=${listOfPlayerIds.join(",")}`
+          );
+
+          console.log("📢 Fetched full player details:", playersResponse.data);
+
+          // Step 3: Store players in state
+          setTeam(playersResponse.data);
+        } catch (error) {
+          console.error("❌ Error fetching player details:", error);
+        }
       })
-      .catch((error) => console.error("Error fetching team from DB:", error));
+      .catch((error) =>
+        console.error("❌ Error fetching user data:", error)
+      );
   }, [userId, setTeam]);
 
   return (
@@ -35,6 +54,10 @@ export default function TeamManagement() {
         </Link>
       </div>
       <h2>🚀 My Gaming Team</h2>
+
+      <p className="team-budget">
+      💰 <strong>Remaining Budget: Rs. {budget.toFixed(2).toLocaleString()}</strong>
+      </p>
 
       <p className="team-status">
         Team Completeness: <strong>{team.length}/11 players selected</strong>
@@ -50,20 +73,16 @@ export default function TeamManagement() {
         ) : (
           <ul>
             {team.map((player) => (
+              
               <li key={player.id} className="player-card">
                 <span className="player-name">
                   {player.name} - {player.university}
                 </span>
                 <span className="player-price">
-                  💰 Rs. {player.price.toLocaleString()}
+                 
+                  💰 Rs. {player.price ? player.price.toLocaleString() : "N/A"}
                 </span>
-                <button
-                  onClick={() => removePlayer(player.id)}
-                  className="remove-button"
-                  disabled={team.length === 11}
-                >
-                  ❌ Remove
-                </button>
+              
               </li>
             ))}
           </ul>
