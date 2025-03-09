@@ -65,7 +65,8 @@ public class WebSecurityConfig {
                 .requestMatchers("/error").permitAll() // Allow error endpoint
                 .requestMatchers(
                     "/api/auth/**",           // Allow all auth endpoints
-                    "/api/public/**"          // Allow all public endpoints
+                    "/api/public/**",
+                        "/editUser/**"// Allow all public endpoints
                 ).permitAll()
                 .anyRequest().authenticated()
             )

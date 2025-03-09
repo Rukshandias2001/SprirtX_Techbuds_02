@@ -11,7 +11,7 @@ export default function Leaderboard() {
   useEffect(() => {
     const fetchLeaderBoard = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/players/LeaderBoard");
+        const response = await axios.get("http://localhost:8080/Admin/LeaderBoard");
         const sortedData = response.data.sort((a, b) => b.points - a.points);
         setPlayers(sortedData);
       } catch (error) {
