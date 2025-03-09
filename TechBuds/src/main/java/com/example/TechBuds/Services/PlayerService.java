@@ -1,4 +1,4 @@
-package com.example.TechBuds.Service;
+package com.example.TechBuds.Services;
 
 import com.example.TechBuds.Entities.PlayerStats;
 import com.example.TechBuds.Modal.PlayerPriceDTO;

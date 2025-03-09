@@ -2,7 +2,7 @@ package com.example.TechBuds.Controllers;
 
 
 import com.example.TechBuds.Modal.PlayerStatDTO;
-import com.example.TechBuds.Service.PlayerService;
+import com.example.TechBuds.Services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 
 @RestController
-
 @CrossOrigin
 @RequestMapping("/Admin")
 public class AdminController {
