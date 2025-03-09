@@ -11,5 +11,9 @@ public interface PlayerService {
     ArrayList<PlayerPriceDTO> getPlayerPrice();
 
     ArrayList<PlayerStats> getPlayer();
+    PlayerStats savePlayerStat(PlayerStats playerStat);
+    boolean deletePlayerStat(String id);
+
+
 
 }

@@ -3,6 +3,7 @@ package com.example.TechBuds.Controllers;
 import com.example.TechBuds.Entities.User;
 import com.example.TechBuds.Security.JwtTokenUtil;
 import com.example.TechBuds.Services.UserService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +15,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin
+
+@CrossOrigin(origins = "http://localhost:5173")
+
 public class AuthController {
 
     private final UserService userService;
@@ -67,6 +72,7 @@ public class AuthController {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         final UserDetails userDetails = userService.loadUserByUsername(user.getUsername());
         return jwtTokenUtil.generateToken(userDetails);
+
     }
 
     @GetMapping("/current-user")
@@ -88,5 +94,13 @@ public class AuthController {
         return userService.findByUsername(username)
             .orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "User not found with username: " + username));
+    }
+
+    @PostMapping("/checkAdmin/{username}")
+    public ResponseEntity<Map<String, Boolean>> checkUserStatus(@PathVariable String username) {
+        boolean admin = userService.checkAdmin(username);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("adminStatus", admin);
+        return ResponseEntity.ok(response);
     }
 }
