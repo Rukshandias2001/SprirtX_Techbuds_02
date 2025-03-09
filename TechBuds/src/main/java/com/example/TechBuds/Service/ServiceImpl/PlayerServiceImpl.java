@@ -47,6 +47,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     public ArrayList<PlayerStats> getPlayer() {
         return (ArrayList<PlayerStats>) playerStatsRepository.findAll();
+
     }
 
     public ArrayList<PlayerPriceDTO> getPlayerPrice() {
@@ -62,7 +63,6 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
 
-
     private PlayerStatDTO createInstance(PlayerStats playerStats,double roundedStats){
         PlayerStatDTO playerStatDTO = new PlayerStatDTO();
         playerStatDTO.setPoints(roundedStats); // Convert BigDecimal back to double
@@ -75,7 +75,6 @@ public class PlayerServiceImpl implements PlayerService {
         return  playerStatDTO;
 
     }
-
 
     private PlayerPriceDTO createInstancePlayerPrice(PlayerStats playerStats,double roundedStats){
         PlayerPriceDTO playerPriceDTO = new PlayerPriceDTO();

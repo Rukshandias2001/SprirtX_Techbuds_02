@@ -20,10 +20,7 @@ public class User {
     
     private String password;
     
-    private String email;
-    
-    // Replace roles list with a single role
-    private String role;
+
     
     private Boolean admin = false;
     
@@ -52,21 +49,7 @@ public class User {
         this.password = password;
     }
     
-    public String getEmail() {
-        return email;
-    }
-    
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
-    public String getRole() {
-        return role;
-    }
-    
-    public void setRole(String role) {
-        this.role = role;
-    }
+
     
     public Boolean getAdmin() {
         return admin;
@@ -76,7 +59,5 @@ public class User {
         this.admin = admin;
     }
     
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(role));
-    }
+
 }
