@@ -57,9 +57,7 @@ function Navbar() {
                 Leaderboard
               </a>
             )}
-            <a href="#" className="link">
-              Spiriter
-            </a>
+           
           </li>
         </ul>
       </nav>
