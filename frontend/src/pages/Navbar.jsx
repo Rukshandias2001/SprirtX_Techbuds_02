@@ -72,7 +72,7 @@ function Navbar() {
         ) : (
           <a href="/SignUp">
             <button className="btn-login">
-              <i className="fa-solid fa-user"></i>Login
+              <i className="fa-solid fa-user"></i>sign up
             </button>
           </a>
         )}
