@@ -7,7 +7,7 @@ body, html {
   overflow: auto;
   font-family: 'Poppins', sans-serif;
   color: #fff;
-  
+  overflow: auto;
 }
 
 /* Video Background for Main Content */

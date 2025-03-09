@@ -6,9 +6,8 @@ import { EffectCoverflow, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
-import playersData from "../data/players.json";
 import avatar from "../assets/image.png";
-import Navbar from './Navbar';
+import Navbar from "./Navbar";
 import batsmanImg from "../assets/bat3.png";
 import bowlerImg from "../assets/bowler.png";
 import allRounderImg from "../assets/allr.png";
@@ -17,16 +16,27 @@ const playerImages = {
   Batsman: batsmanImg,
   Bowler: bowlerImg,
   "All-Rounder": allRounderImg,
-  
 };
+
 const PlayerDetails = () => {
   const { universityName } = useParams();
   const [players, setPlayers] = useState([]);
   const [selectedPlayer, setSelectedPlayer] = useState(null);
-
   const navigate = useNavigate();
+  const API_URL = "http://localhost:8080/players/GetPlayers"; // Backend API URL
+
   useEffect(() => {
-    setPlayers(playersData.filter((player) => player.university === universityName));
+    fetch(API_URL)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        // Filter players by selected university
+        const universityPlayers = data.filter(
+          (player) => player.University === universityName
+        );
+        setPlayers(universityPlayers);
+      })
+      .catch((error) => console.error("Error fetching players:", error));
   }, [universityName]);
 
   return (
@@ -36,7 +46,11 @@ const PlayerDetails = () => {
         <div className="battle-arena1">
           <h1>🏏 {universityName} Players ⚡</h1>
         </div>
-        <button className="back-button" onClick={() => navigate("/players")}>⬅ Back</button>
+        <button className="back-button" onClick={() => navigate("/players")}>
+          ⬅ Back
+        </button>
+
+        {/* Swiper for Players */}
         <div className="university-section">
           <Swiper
             effect="coverflow"
@@ -58,35 +72,48 @@ const PlayerDetails = () => {
             modules={[EffectCoverflow, Pagination, Autoplay]}
             className="swiper-container"
           >
-            {players.map((player) => (
-              <SwiperSlide key={player.id} className="swiper-slide">
-                <div className="card">
-                  {/* Display player image based on category */}
-                  <img
-                    src={playerImages[player.category]}
-                    alt={player.name}
-                    className="player-image"
-                  />
-                  <h3>{player.name}</h3>
-                  <p className="detail">Category: {player.category}</p>
-                  <button className="view-stats" onClick={() => setSelectedPlayer(player)}>
-                    View Details
-                  </button>
-                </div>
-              </SwiperSlide>
-            ))}
+            {players.length > 0 ? (
+              players.map((player) => (
+                <SwiperSlide key={player.Id} className="swiper-slide">
+                  <div className="card">
+                    <img
+                      src={playerImages[player.Category] || avatar}
+                      alt={player.Name}
+                      className="player-image"
+                    />
+                    <h3>{player.Name}</h3>
+                    <p className="detail">Category: {player.Category}</p>
+                    <button
+                      className="view-stats"
+                      onClick={() => setSelectedPlayer(player)}
+                    >
+                      View Details
+                    </button>
+                  </div>
+                </SwiperSlide>
+              ))
+            ) : (
+              <p className="no-players">
+                No players found for {universityName}.
+              </p>
+            )}
           </Swiper>
         </div>
 
+        {/* Player Details Modal */}
         {selectedPlayer && (
           <div className="modal">
             <div className="modal-content">
-              <h2>{selectedPlayer.name}</h2>
-              <img src={avatar} alt={selectedPlayer.name} className="modal-avatar" />
-              <p>University: {selectedPlayer.university}</p>
-              <p>Category: {selectedPlayer.category}</p>
-              <p>Total Runs: {selectedPlayer.totalRuns}</p>
-              <p>Wickets: {selectedPlayer.wickets}</p>
+              <h2>{selectedPlayer.Name}</h2>
+              <img
+                src={avatar}
+                alt={selectedPlayer.Name}
+                className="modal-avatar"
+              />
+              <p>University: {selectedPlayer.University}</p>
+              <p>Category: {selectedPlayer.Category}</p>
+              <p>Total Runs: {selectedPlayer["Total Runs"]}</p>
+              <p>Wickets: {selectedPlayer.Wickets}</p>
               <button onClick={() => setSelectedPlayer(null)}>Close</button>
             </div>
           </div>
