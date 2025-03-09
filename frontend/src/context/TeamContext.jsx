@@ -62,7 +62,10 @@ export const TeamProvider = ({ children }) => {
   };
 
   const addPlayer = async (player) => {
-    const userId = localStorage.getItem("userId") || "67cd525ad5bcd10c89be8519";
+    const loginUser = localStorage.getItem("userRole");
+    const selectUserId = JSON.parse(loginUser);
+
+    const userId = selectUserId.id;
 
     if (!userId) {
       alert("User ID not found! Please log in again.");
@@ -140,7 +143,10 @@ export const TeamProvider = ({ children }) => {
   const removePlayer = async (playerId) => {
     const SelectedPlayer = players.find((p) => p.id === playerId);
 
-    const userId = localStorage.getItem("userId") || "67cd525ad5bcd10c89be8519";
+    const loginUser = localStorage.getItem("userRole");
+    const selectUserId = JSON.parse(loginUser);
+
+    const userId = selectUserId.id;
 
     if (!userId) {
       alert("User ID not found! Please log in again.");

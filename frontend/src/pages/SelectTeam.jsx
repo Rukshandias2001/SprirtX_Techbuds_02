@@ -8,6 +8,7 @@ export default function SelectTeam() {
   const { players, addPlayer, team, removePlayer } = useTeam();
 
   const [selectedCategory, setSelectedCategory] = useState("Batsman");
+ 
 
   const filteredPlayers = players.filter(
     (player) => player.category === selectedCategory

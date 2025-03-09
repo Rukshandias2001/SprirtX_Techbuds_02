@@ -36,17 +36,17 @@ const Login = () => {
         "http://localhost:8080/api/auth/current-user",
         {
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
       );
 
       const { role } = user.data; // ✅ Extract role properly
       console.log("User data:", user.data);
-
+      console.log(user.data);
       // Store user role in localStorage
-      localStorage.setItem("userRole", role);
+      localStorage.setItem("userRole", JSON.stringify(user.data));
 
       // Redirect based on role
       if (role) {

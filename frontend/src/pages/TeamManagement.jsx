@@ -6,7 +6,10 @@ import "../styles/TeamManagement.css";
 
 export default function TeamManagement() {
   const { team, totalPoints, removePlayer, setTeam } = useTeam();
-  const userId = "67cd525ad5bcd10c89be8519"; // Dummy User ID
+
+  const loginUser = localStorage.getItem("userRole");
+  const selectUserId = JSON.parse(loginUser);
+  const userId = selectUserId.id; // Dummy User ID
   const [budget, setBudget] = useState(0);
 
   useEffect(() => {
@@ -30,7 +33,9 @@ export default function TeamManagement() {
         try {
           // Step 2: Fetch full player details
           const playersResponse = await axios.get(
-            `http://localhost:8080/editUser/getPlayers?listOfIds=${listOfPlayerIds.join(",")}`
+            `http://localhost:8080/editUser/getPlayers?listOfIds=${listOfPlayerIds.join(
+              ","
+            )}`
           );
 
           console.log("📢 Fetched full player details:", playersResponse.data);
@@ -41,9 +46,7 @@ export default function TeamManagement() {
           console.error("❌ Error fetching player details:", error);
         }
       })
-      .catch((error) =>
-        console.error("❌ Error fetching user data:", error)
-      );
+      .catch((error) => console.error("❌ Error fetching user data:", error));
   }, [userId, setTeam]);
 
   return (
@@ -56,7 +59,10 @@ export default function TeamManagement() {
       <h2>🚀 My Gaming Team</h2>
 
       <p className="team-budget">
-      💰 <strong>Remaining Budget: Rs. {budget.toFixed(2).toLocaleString()}</strong>
+        💰{" "}
+        <strong>
+          Remaining Budget: Rs. {budget.toFixed(2).toLocaleString()}
+        </strong>
       </p>
 
       <p className="team-status">
@@ -73,16 +79,13 @@ export default function TeamManagement() {
         ) : (
           <ul>
             {team.map((player) => (
-              
               <li key={player.id} className="player-card">
                 <span className="player-name">
                   {player.name} - {player.university}
                 </span>
                 <span className="player-price">
-                 
                   💰 Rs. {player.price ? player.price.toLocaleString() : "N/A"}
                 </span>
-              
               </li>
             ))}
           </ul>
