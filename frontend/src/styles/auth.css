@@ -1,0 +1,270 @@
+/* auth.css */
+
+/* General Styles */
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(180deg, #1e3c72, #2a5298);
+  color: #fff;
+  overflow: hidden;
+}
+
+/* Auth Container */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url('../assets/cricket-stadium.jpg') no-repeat center center/cover;
+  position: relative;
+  background: radial-gradient(
+    303px at 0% 7%,
+    #0a2342 31.1%,
+    #1a3a5a 36.4%,
+    #2a4b6a 50.9%,
+    #FFD700 60.7%,
+    #e6b800 72.5%,
+    #0a2342 72.6%
+
+  );
+ 
+}
+
+.auth-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+
+/* Auth Card */
+.auth-card {
+  margin-top: 60px;
+  background: rgba(10, 35, 66, 0.9);
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  z-index: 2;
+  animation: fadeIn 1s ease-in-out;
+  /* margin-left: 390px; */
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-card h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #FFD700; /* Gold text */
+}
+
+.auth-card p {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+/* Input Groups */
+.input-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+  color: #FFD700; /* Gold text */
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #FFD700;
+  border-radius: 5px;
+  background: transparent;
+  color: #fff;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.input-group input:focus {
+  border-color: #e6b800; /* Slightly darker gold */
+  outline: none;
+}
+
+/* Checkbox Group */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.checkbox-group input[type="checkbox"] {
+  margin-right: 10px;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.checkbox-group label {
+  font-size: 0.9rem;
+  color: #FFD700; /* Gold text */
+  cursor: pointer;
+}
+
+/* Auth Button */
+.auth-button {
+  width: 100%;
+  padding: 12px;
+  background: #FFD700; /* Gold */
+  color: #0a2342; /* Dark blue text */
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.auth-button:hover {
+  background: #e6b800; /* Slightly darker gold */
+}
+
+/* Auth Link */
+.auth-link {
+  font-size: 0.9rem;
+  margin-top: 20px;
+  color: #fff;
+}
+
+.auth-link span {
+  color: #FFD700;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.auth-link span:hover {
+  color: #e6b800; /* Slightly darker gold */
+}
+
+.bat{
+  width: 500px;
+  height: 500px;
+  
+  
+}
+
+.bat-container{
+ margin-top: 200px;
+  z-index: 99;
+  
+}
+
+ /* Falling Balls Animation */
+.falling-balls {
+  position: absolute;
+  top: -100px; /* Start above the screen */
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Ensure balls don't interfere with clicks */
+  overflow: hidden;
+}
+
+.ball {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #FFD700; /* Gold color */
+  border-radius: 50%;
+  animation: fall linear infinite;
+}
+
+/* Define the falling animation */
+@keyframes fall {
+  0% {
+    transform: translateY(-100px) rotate(0deg);
+  }
+  100% {
+    transform: translateY(100vh) rotate(360deg); /* Fall to the bottom of the screen */
+  }
+}
+
+/* Add delays and different speeds for each ball */
+.ball:nth-child(1) {
+  left: 10%;
+  animation-duration: 8s;
+  animation-delay: 0s;
+}
+
+.ball:nth-child(2) {
+  left: 20%;
+  animation-duration: 10s;
+  animation-delay: 2s;
+}
+
+.ball:nth-child(3) {
+  left: 30%;
+  animation-duration: 12s;
+  animation-delay: 1s;
+}
+
+.ball:nth-child(4) {
+  left: 40%;
+  animation-duration: 9s;
+  animation-delay: 3s;
+}
+
+.ball:nth-child(5) {
+  left: 50%;
+  animation-duration: 11s;
+  animation-delay: 0.5s;
+}
+
+.ball:nth-child(6) {
+  left: 60%;
+  animation-duration: 7s;
+  animation-delay: 4s;
+}
+
+.ball:nth-child(7) {
+  left: 70%;
+  animation-duration: 13s;
+  animation-delay: 1.5s;
+}
+
+.ball:nth-child(8) {
+  left: 80%;
+  animation-duration: 8.5s;
+  animation-delay: 2.5s;
+}
+
+.ball:nth-child(9) {
+  left: 90%;
+  animation-duration: 10.5s;
+  animation-delay: 0.7s;
+}
+
+.ball:nth-child(10) {
+  left: 95%;
+  animation-duration: 9.5s;
+  animation-delay: 3.2s;
+}
