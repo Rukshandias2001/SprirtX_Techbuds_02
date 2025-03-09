@@ -14,8 +14,9 @@ import java.util.ArrayList;
 
 
 @RestController
-@CrossOrigin
+
 @RequestMapping("/Admin")
+@CrossOrigin(origins = "http://localhost:5174")
 public class AdminController {
 
     @Autowired

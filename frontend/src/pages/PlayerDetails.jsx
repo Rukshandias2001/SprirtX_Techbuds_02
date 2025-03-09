@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "../styles/playersDetails.css"; // Import the new CSS file
+import "../styles/playersDetails.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
 import playersData from "../data/players.json";
-import bowlerImg from "../assets/bowler.png";
-import avatar from "../assets/av.png";
+import avatar from "../assets/image.png";
 import Navbar from './Navbar';
+import batsmanImg from "../assets/bat3.png";
+import bowlerImg from "../assets/bowler.png";
+import allRounderImg from "../assets/allr.png";
 
+const playerImages = {
+  Batsman: batsmanImg,
+  Bowler: bowlerImg,
+  "All-Rounder": allRounderImg,
+  
+};
 const PlayerDetails = () => {
   const { universityName } = useParams();
   const [players, setPlayers] = useState([]);
@@ -53,14 +61,17 @@ const PlayerDetails = () => {
             {players.map((player) => (
               <SwiperSlide key={player.id} className="swiper-slide">
                 <div className="card">
-                  <img src={bowlerImg} alt={player.name} className="player-image" />
-                  <div className="player-info">
-                    <h3>{player.name}</h3>
-                    <p>Category: {player.category}</p>
-                    <button className="view-stats" onClick={() => setSelectedPlayer(player)}>
-                      View Details
-                    </button>
-                  </div>
+                  {/* Display player image based on category */}
+                  <img
+                    src={playerImages[player.category]}
+                    alt={player.name}
+                    className="player-image"
+                  />
+                  <h3>{player.name}</h3>
+                  <p className="detail">Category: {player.category}</p>
+                  <button className="view-stats" onClick={() => setSelectedPlayer(player)}>
+                    View Details
+                  </button>
                 </div>
               </SwiperSlide>
             ))}
@@ -72,12 +83,10 @@ const PlayerDetails = () => {
             <div className="modal-content">
               <h2>{selectedPlayer.name}</h2>
               <img src={avatar} alt={selectedPlayer.name} className="modal-avatar" />
-              <div className="modal-stats">
-                <p>University: {selectedPlayer.university}</p>
-                <p>Category: {selectedPlayer.category}</p>
-                <p>Total Runs: {selectedPlayer.totalRuns}</p>
-                <p>Wickets: {selectedPlayer.wickets}</p>
-              </div>
+              <p>University: {selectedPlayer.university}</p>
+              <p>Category: {selectedPlayer.category}</p>
+              <p>Total Runs: {selectedPlayer.totalRuns}</p>
+              <p>Wickets: {selectedPlayer.wickets}</p>
               <button onClick={() => setSelectedPlayer(null)}>Close</button>
             </div>
           </div>
