@@ -62,9 +62,7 @@ export const TeamProvider = ({ children }) => {
   };
 
   const addPlayer = async (player) => {
-
-   const userId = localStorage.getItem("userId") || "67cd525ad5bcd10c89be8519";
-
+    const userId = localStorage.getItem("userId") || "67cd525ad5bcd10c89be8519";
 
     if (!userId) {
       alert("User ID not found! Please log in again.");
@@ -90,7 +88,6 @@ export const TeamProvider = ({ children }) => {
       await axios.get(
         `http://localhost:8080/editUser/addPlayer?userId=${userId}&id=${player.id}&price=${player.price}`
       );
-     
 
       setTeam((prevTeam) => [...prevTeam, player]);
       setBudget((prevBudget) => prevBudget - player.price); // Deduct budget
@@ -143,7 +140,7 @@ export const TeamProvider = ({ children }) => {
   const removePlayer = async (playerId) => {
     const SelectedPlayer = players.find((p) => p.id === playerId);
 
-    const userId = localStorage.getItem("userId");
+    const userId = localStorage.getItem("userId") || "67cd525ad5bcd10c89be8519";
 
     if (!userId) {
       alert("User ID not found! Please log in again.");
@@ -176,11 +173,9 @@ export const TeamProvider = ({ children }) => {
       setTeam((prevTeam) =>
         prevTeam.filter((p) => String(p.id) !== String(playerId))
       );
-      setBudget((prevBudget) => prevBudget + playerToRemove.price ||0); // Restore budget
-   
-      alert(`❌ ${playerToRemove.name} has been removed from your team.`);
+      setBudget((prevBudget) => prevBudget + playerToRemove.price || 0); // Restore budget
 
-      
+      alert(`❌ ${playerToRemove.name} has been removed from your team.`);
     } catch (error) {
       console.error("❌ Error removing player:", error);
       alert("❌ Failed to remove player. Try again.");

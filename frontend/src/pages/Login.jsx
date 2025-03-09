@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/auth.css";
 
-
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -15,21 +14,22 @@ const Login = () => {
     e.preventDefault();
     setError("");
     setLoading(true);
-    console.log("Login", username);
-    console.log("Password", password);
+
     try {
       // Make API call to authenticate
       const response = await axios.post("http://localhost:8080/api/auth/authenticate", {
-        username: username,
-        password: password
+        username,
+        password
       });
 
-      const token = response.data;
-      console.log("Success", response.data);
-      
+      const { token } = response.data;
+      console.log("Login successful:", response.data);
+
+      // Store token in localStorage
+      localStorage.setItem("token", token);
+
       // Get user details with the token
-    
-      const user = await axios.get(
+      const userResponse = await axios.get(
         "http://localhost:8080/api/auth/current-user",
         {
           headers: {
@@ -38,29 +38,15 @@ const Login = () => {
           }
         }
       );
-      console.log("User data:", user.data);
-      // Handle successful login
-      
-      console.log("Token", token);
-      console.log("Admin", user.admin);
-      // Store token in localStorage
-      localStorage.setItem("token", token);
-      localStorage.setItem("userRole", user.admin);
 
-      // Redirect based on role
-      if (user.admin) {
+      const { role } = userResponse.data;
+      console.log("User data:", userResponse.data);
 
-console.log("Success", response.data);
-      // Handle successful login
-      const { token, role } = response.data;
-      
-      // Store token in localStorage
-      localStorage.setItem("token", token);
+      // Store user role in localStorage
       localStorage.setItem("userRole", role);
-      
+
       // Redirect based on role
       if (role === "ADMIN") {
-
         navigate("/admin-dashboard");
       } else {
         navigate("/players");
