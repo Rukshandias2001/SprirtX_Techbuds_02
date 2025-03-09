@@ -91,7 +91,7 @@ const Players = () => {
               <img src={mascot} alt={university} className="university-logo" />
               <div className="university-info">
                 <h3>{university}</h3>
-                <button className="select-team-btn">Select Team</button>
+                <button className="select-team-btn">View Team</button>
               </div>
             </div>
           ))}
