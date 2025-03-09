@@ -23,6 +23,33 @@ const Login = () => {
         username: username,
         password: password
       });
+
+      const token = response.data;
+      console.log("Success", response.data);
+      
+      // Get user details with the token
+    
+      const user = await axios.get(
+        "http://localhost:8080/api/auth/current-user",
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      console.log("User data:", user.data);
+      // Handle successful login
+      
+      console.log("Token", token);
+      console.log("Admin", user.admin);
+      // Store token in localStorage
+      localStorage.setItem("token", token);
+      localStorage.setItem("userRole", user.admin);
+
+      // Redirect based on role
+      if (user.admin) {
+
 console.log("Success", response.data);
       // Handle successful login
       const { token, role } = response.data;
@@ -33,6 +60,7 @@ console.log("Success", response.data);
       
       // Redirect based on role
       if (role === "ADMIN") {
+
         navigate("/admin-dashboard");
       } else {
         navigate("/players");

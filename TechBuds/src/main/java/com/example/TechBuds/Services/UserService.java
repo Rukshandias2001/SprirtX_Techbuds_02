@@ -45,4 +45,8 @@ public class UserService implements UserDetailsService {
                 ))
         );
     }
+
+    public boolean checkAdmin(String name) {
+        return userRepository.existsByUsernameAndAdminIsTrue(name);
+    }
 }
