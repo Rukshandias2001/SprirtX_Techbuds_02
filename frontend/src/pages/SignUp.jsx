@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios"; // Import axios
 import "../styles/auth.css";
 import bat from "../assets/bat.png";
 import ball from "../assets/ball2.png";
@@ -8,26 +9,47 @@ const SignUp = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false); // State for admin checkbox
+  const [isAdmin, setIsAdmin] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // Added loading state
   const navigate = useNavigate();
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
 
     if (password !== confirmPassword) {
       setError("Passwords do not match!");
+      setLoading(false);
       return;
     }
 
     const signUpData = {
       username,
       password,
-      isAdmin, // Include admin status in the sign-up data
+      admin: isAdmin, // Note: Changed from isAdmin to admin to match backend expectation
     };
 
-    console.log("Signing up with:", signUpData);
-    navigate("/login");
+    try {
+      console.log("Signing up with:", signUpData);
+      // Make axios POST request to the registration endpoint
+      const response = await axios.post(
+        "http://localhost:8080/api/auth/register",
+        signUpData
+      );
+      
+      console.log("Registration successful:", response.data);
+      navigate("/login"); // Redirect after successful registration
+    } catch (error) {
+      console.error("Registration error:", error);
+      setError(
+        error.response?.data?.message || 
+        "Registration failed. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -91,8 +113,8 @@ const SignUp = () => {
             </label>
           </div>
           {error && <p className="error-message">{error}</p>}
-          <button type="submit" className="auth-button">
-            Sign Up
+          <button type="submit" className="auth-button" disabled={loading}>
+            {loading ? "Signing Up..." : "Sign Up"}
           </button>
         </form>
         <p className="auth-link">
