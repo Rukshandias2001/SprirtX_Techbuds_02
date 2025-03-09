@@ -1,26 +1,35 @@
 import "../styles/navbar.css";
-import SignUp from './SignUp';
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import SignUp from "./SignUp";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
+  const [hasLeaderboardAccess, setHasLeaderboardAccess] = useState(false);
+
   useEffect(() => {
     // Check if token exists in localStorage
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
+    }
+
+    // Check user role
+    const loginUser = localStorage.getItem("userRole");
+    if (loginUser) {
+      const selectUserId = JSON.parse(loginUser);
+      setHasLeaderboardAccess(selectUserId.admin); // Assuming the role is stored as a boolean (true/false)
     }
   }, []);
 
   const handleLogout = () => {
     // Remove token from localStorage
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setIsLoggedIn(false);
     // Redirect to login page
-    navigate('/Login');
+    navigate("/Login");
   };
 
   return (
@@ -43,9 +52,11 @@ function Navbar() {
             <a href="budget" className="link">
               Budget
             </a>
-            <a href="/leaderboard" className="link">
-              Leaderboard
-            </a>
+            {hasLeaderboardAccess && (
+              <a href="/leaderboard" className="link">
+                Leaderboard
+              </a>
+            )}
             <a href="#" className="link">
               Spiriter
             </a>

@@ -30,6 +30,7 @@ const Login = () => {
 
       // Store token in localStorage
       localStorage.setItem("token", token);
+      
 
       // Get user details with the token
       const user = await axios.get(

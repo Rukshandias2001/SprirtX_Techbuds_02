@@ -43,7 +43,7 @@ const Players = () => {
   const navigate = useNavigate();
   const [quote, setQuote] = useState("");
 
-  useEffect(() => {
+  useEffect(() => {  
     // Set a random motivational quote on component mount
     const randomQuote =
       motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
