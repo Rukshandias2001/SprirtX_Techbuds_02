@@ -4,9 +4,10 @@ body, html {
   padding: 0;
   width: 100%;
   height: 100vh;
-  overflow-x: hidden;
+  overflow: auto;
   font-family: 'Poppins', sans-serif;
   color: #fff;
+  
 }
 
 /* Video Background for Main Content */
